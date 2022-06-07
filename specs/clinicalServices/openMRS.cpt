@@ -5,10 +5,10 @@
 
 # Create a hospital user and assign doctor role
 * Manage Users
-* Add hospital user <file:data/hospitalUser/doctor.json>
+* Add hospital user <file:bahmni-e2e-common-flows/data/hospitalUser/doctor.json>
 * Enter hospital user's personal details
 * Enter hospital user's details
-* Select <file:data/hospitalUser/doctorRole.json> role
+* Select <file:bahmni-e2e-common-flows/data/hospitalUser/doctorRole.json> role
 * Save hospital user
 
 # Create a doctor role if not already exists
@@ -16,10 +16,10 @@
 * Add a doctor's role
 
 # Add a doctor's role
-* Add Role <file:data/hospitalUser/doctorRole.json> if not already exists
+* Add Role <file:bahmni-e2e-common-flows/data/hospitalUser/doctorRole.json> if not already exists
 
 # Create a lab technician role
-* Add hospital user <file:data/hospitalUser/doctor.json>
+* Add hospital user <file:bahmni-e2e-common-flows/data/hospitalUser/doctor.json>
 * Enter hospital user's personal details
 * Enter hospital user's details
 * Save hospital user

@@ -110,7 +110,7 @@ step("Click Admit on popup", async function () {
 });
 
 step("Enter Form Values <observationFormFile>", async function (observationFormFile) {
-	var observationFormValues = JSON.parse(fileExtension.parseContent(`./data/opConsultation/${observationFormFile}.json`))
+	var observationFormValues = JSON.parse(fileExtension.parseContent(`./bahmni-e2e-common-flows/data/opConsultation/${observationFormFile}.json`))
 	await taikoHelper.repeatUntilNotFound($("#overlay"))
 	await taikoHelper.executeConfigurations(observationFormValues.ObservationFormDetails, observationFormValues.ObservationFormName)
 

@@ -116,11 +116,6 @@ step("Save the patient data", async function () {
     gauge.message(`patient Identifier ${patientIdentifier}`)
 });
 
-step("Select Mobile OTP", async function () {
-    await waitFor("Preferred mode of Authentication")
-    await dropDown("Preferred mode of Authentication").select("MOBILE_OTP");
-});
-
 step("Select the newly created patient", async function() {
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
     await write(patientIdentifierValue)
