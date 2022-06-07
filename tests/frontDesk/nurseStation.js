@@ -42,12 +42,13 @@ step("Select bed for admission <ward>", async function (ward) {
 	await click(ward)
 });
 
-step("Allocate bed <bedNumber>", async function (bedNumber) {
-	await click(bedNumber)
+step("Allocate available bed", async function () {
+	await click($("//*[@class='col available']"))
 });
 
 step("Click Assign", async function () {
 	await click("Assign", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout })
+	
 	await taikoHelper.repeatUntilNotFound($("#overlay"))
 });
 

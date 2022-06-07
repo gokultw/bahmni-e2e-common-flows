@@ -1,4 +1,4 @@
-# Nurse at ADT is able to view bed availability and assign beds to bed <bed>
+# Nurse at ADT is able to view bed availability and assign bed to patient
 * Nurse opens admission tab
 * Select the newly created patient for IP Admission
 * wait for overlay to disappear
@@ -6,7 +6,7 @@
 * Enter adt notes "Admission notes"
 * Admit the patient
 * Select bed for admission "Labour Ward"
-* Allocate bed <bed>
+* Allocate available bed
 * Click Assign
 
 # Nurse at ADT gives discharge disposition
@@ -17,13 +17,13 @@
 * Enter adt notes "Discharge notes"
 * Discharge the patient
 
-# Admit a patient to general ward bed <wardNumber>
+# Admit a patient to general ward bed
 * Open "Bed Management" module
 * Goto All section
 * Search the newly created patient
 * wait for overlay to disappear
 * Select the general ward
-* Allocate bed <wardNumber>
+* Allocate available bed
 * Click Admit
 * Click Admit on popup
 
@@ -34,9 +34,9 @@
 * Click Discharge
 * Click Discharge on popup
 
-# Nurse admits the patient to bed <bed>
+# Nurse admits the patient to available bed
 * Open "InPatient" module
-* Nurse at ADT is able to view bed availability and assign beds to bed <bed>
+* Nurse at ADT is able to view bed availability and assign bed to patient
 
 # Nurse discharges the patient
 * Open "InPatient" module
