@@ -43,7 +43,7 @@ step("Select bed for admission <ward>", async function (ward) {
 });
 
 step("Allocate available bed", async function () {
-	await click($("//*[@class='col available']"))
+	await click($("//*[@class='col available' or @class='bed AVAILABLE']"))
 });
 
 step("Click Assign", async function () {

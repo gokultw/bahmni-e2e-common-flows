@@ -79,7 +79,7 @@ step("Log out of openmrs", async function() {
 });
 
 step("Wait for message <message> to disappear", async function(message) {
-    await taikoHelper.repeatUntilNotFound(text(message))
+    await waitFor(async () => !(await text(message).exists()))
 });
 
 step("put doctor first name <doctorFirstName> middle name <doctorMiddleName> lastname <doctorLastName>", async function(doctorFirstName, doctorMiddleName, doctorLastName) {
