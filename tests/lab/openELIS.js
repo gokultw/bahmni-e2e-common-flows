@@ -1,5 +1,5 @@
 "use strict"
-const { goto, toRightOf, textBox,text, into, write, click, $,below, checkBox,waitFor,image,within,link } = require('taiko');
+const { goto, toRightOf, textBox,text, into, write, click, $,below, checkBox,waitFor,image,within,link, highlight, screenshot } = require('taiko');
 var fileExtension = require('../util/fileExtension')
 const taikoHelper = require("../util/taikoHelper")
 step("Enter password in ELIS", async function() {
@@ -24,7 +24,11 @@ step("Find the patient", async function () {
 });
 
 step("Click collect sample", async function () {
-        await click("Collect Sample");
+//        await waitFor(async () => (await link("Collect Sample").isVisible()))
+        await waitFor(1000)
+        // await highlight(link("Collect Sample"))
+        // await screenshot()
+        await click(link("Collect Sample"));
 });
 
 step("Generate the auto id", async function() {
