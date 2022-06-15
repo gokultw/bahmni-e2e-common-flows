@@ -23,9 +23,16 @@ step("enter odoo password", async function () {
 });
 
 step("Log in to odoo", async function () {
-    await click("Log in",
-        { waitForNavigation: true, navigationTimeout: process.env.actionTimeout }
-    );
+    try {
+        if (await textBox(below("Password")).exists()) {
+            await click("Log in",
+                { waitForNavigation: true, navigationTimeout: process.env.actionTimeout }
+            );
+        }
+    }
+    catch (e) {
+        gauge.message(`Login button not available, user is already logged in or page not loaded properly`)
+    }
 });
 
 step("Click Sales", async function () {
