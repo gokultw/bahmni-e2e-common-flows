@@ -36,7 +36,7 @@ step("Log in to odoo", async function () {
 });
 
 step("Click Sales", async function () {
-    await click("Sales");
+    await click("Sales", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
 });
 
 step("View Quotations below direct sales", async function () {

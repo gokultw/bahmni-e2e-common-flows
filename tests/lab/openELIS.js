@@ -62,7 +62,7 @@ step("Click collect sample for <patientIdentifier>", async function(patientIdent
 
 step("Validate lab result <details>", async function (details) {
         var patientIdentifier = gauge.dataStore.scenarioStore.get("patientIdentifier")
-        await click(image({title:'Validate'}),toRightOf(patientIdentifier))
+        await click(image({title:'Validate'}),toRightOf(patientIdentifier),toRightOf(text("No")))
         var content = fileExtension.parseContent(`./data/elis/samplesCollected/${details}.json`)
         var data = null;
         data = JSON.parse(content)
