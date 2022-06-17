@@ -33,3 +33,12 @@
 * upload file for <profile> profile
 * wait for "2000"
 * verify upload status <profile> data
+
+# Do Search Index
+* Click Search Index
+* Click Rebuild Search Index
+
+# Give <role> to <user>
+* Manage Users
+* Find <user> using name and open
+* Give <role> to user
