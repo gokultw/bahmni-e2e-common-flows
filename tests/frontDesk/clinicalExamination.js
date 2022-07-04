@@ -49,21 +49,21 @@ step("Doctor prescribes medicines <prescriptionNames>", async function (prescrip
     if (medicalPrescriptions.drug_name != null) {
         if (drugName == null)
             drugName = medicalPrescriptions.drug_name;
-        if(await textBox(toRightOf("Drug Name")).exists()){
+        if (await textBox(toRightOf("Drug Name")).exists()) {
             await write(drugName, into(textBox(toRightOf("Drug Name"))));
             await dropDown(toRightOf("Units")).select(medicalPrescriptions.units);
             await dropDown(toRightOf("Frequency")).select(medicalPrescriptions.frequency)
-            try{
+            try {
                 await click("Accept");
             }
-            catch(e){
+            catch (e) {
                 await click(text(drugName, below("Drug Name"), toRightOf("Drug Name")));
                 await click("Accept");
             }
             await write(medicalPrescriptions.dose, into(textBox(toRightOf("Dose"))));
-            await write(medicalPrescriptions.duration, into(textBox(toRightOf("Duration"))));    
+            await write(medicalPrescriptions.duration, into(textBox(toRightOf("Duration"))));
         }
-        else{
+        else {
             await write(drugName, into(textBox(below("Drug Name"))));
             await dropDown(below("Units")).select(medicalPrescriptions.units);
             await dropDown(below("Frequency")).select(medicalPrescriptions.frequency)
@@ -115,7 +115,7 @@ step("Join teleconsultation", async function () {
     await click('Join Teleconsultation');
     await taikoHelper.repeatUntilNotFound($("#overlay"))
     await scrollTo(button('Join teleconsultation'), toRightOf("Scheduled"))
-    await click(button('Join teleconsultation', toRightOf("Scheduled")))
+    await click(button('Join teleconsultation', toRightOf("Scheduled")), { waitForNavigation: false, navigationTimeout: 3000 })
     await highlight('Tele Consultation')
     await click(($('[ng-click="closeTeleConsultation()"]')));
 });
