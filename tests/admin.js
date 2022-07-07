@@ -212,11 +212,10 @@ step("upload file for <profile> profile", async function (profile) {
     await click(button("Upload"))
 });
 step("verify upload status <profile> data", async function (profile) {
-
-    await click(button("Refresh"));
-    if (await text(profile.toLowerCase() + '.csv', near("Name")).exists()) {
-        assert.ok(await text('COMPLETED', near("Status")).exists());
+    while (await text('IN_PROGRESS', near("Status"), toRightOf(profile.toLowerCase() + '.csv')).exists()) {
+        await click(button("Refresh"));
     }
+    assert.ok(await text('COMPLETED', near("Status"), toRightOf(profile.toLowerCase() + '.csv')).exists());
     alert(/^can not be represented as java.sql.Timestamp]9.*$/, async () => await accept())
 });
 

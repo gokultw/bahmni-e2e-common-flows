@@ -31,7 +31,6 @@
 # Upload <profile> data file
 * select profile type <profile>
 * upload file for <profile> profile
-* wait for "2000"
 * verify upload status <profile> data
 
 # Do Search Index
