@@ -161,17 +161,17 @@ step("save the concept", async function () {
 
 step("Create a drug with more details", async function () {
     var _currentURL = await currentURL();
+    var dosageForm = "Tablet";
     await click("Administration");
     await click("Manage Concept Drugs");
     await click("Add Concept Drug");
     var drugName = users.randomName(10)
-
     await write(drugName, into(textBox(toRightOf("Name"), above("Concept"))));
+    gauge.message(`Drug Name - ${drugName}`);
     gauge.dataStore.scenarioStore.put("Drug Name", drugName)
-
     var drugConcept = gauge.dataStore.scenarioStore.get("Drug Concept")
     await write(drugConcept, into(textBox({ placeHolder: "Enter concept name or id" })));
-
+    await write(dosageForm, into(textBox(toRightOf("Dosage Form"), above("Strength"))));
     await click("Save Concept Drug");
 });
 

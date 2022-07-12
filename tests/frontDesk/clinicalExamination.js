@@ -16,7 +16,8 @@ const {
     text,
     confirm,
     accept,
-    button
+    button,
+    link
 } = require('taiko');
 var fileExtension = require("../util/fileExtension");
 const taikoHelper = require("../util/taikoHelper")
@@ -51,29 +52,17 @@ step("Doctor prescribes medicines <prescriptionNames>", async function (prescrip
             drugName = medicalPrescriptions.drug_name;
         if (await textBox(toRightOf("Drug Name")).exists()) {
             await write(drugName, into(textBox(toRightOf("Drug Name"))));
+            await click(link(drugName,below(textBox(toRightOf("Drug Name")))));
             await dropDown(toRightOf("Units")).select(medicalPrescriptions.units);
             await dropDown(toRightOf("Frequency")).select(medicalPrescriptions.frequency)
-            try {
-                await click("Accept");
-            }
-            catch (e) {
-                await click(text(drugName, below("Drug Name"), toRightOf("Drug Name")));
-                await click("Accept");
-            }
             await write(medicalPrescriptions.dose, into(textBox(toRightOf("Dose"))));
             await write(medicalPrescriptions.duration, into(textBox(toRightOf("Duration"))));
         }
         else {
             await write(drugName, into(textBox(below("Drug Name"))));
+            await click(link(drugName, below("Drug Name")));
             await dropDown(below("Units")).select(medicalPrescriptions.units);
             await dropDown(below("Frequency")).select(medicalPrescriptions.frequency)
-            try {
-                await click("Accept");
-            }
-            catch (e) {
-                await click(text(drugName, below("Drug Name")));
-                await click("Accept");
-            }
             await write(medicalPrescriptions.dose, into(textBox(below("Dose"))));
             await write(medicalPrescriptions.duration, into(textBox(below("Duration"))));
         }

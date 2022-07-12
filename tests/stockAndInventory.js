@@ -45,6 +45,14 @@ step("View Quotations below direct sales", async function () {
 
 step("select Customer", async function () {
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
+    var count = 1
+    var maxCount = 20
+    while (!(await text(patientIdentifierValue).exists()) && count < maxCount) {
+        console.log("Waiting for "+ count +" Sec")
+        await waitFor(1000)
+        count += 1
+        await click("Quotations", below("Sales"));
+    }
     await click(patientIdentifierValue);
 });
 
