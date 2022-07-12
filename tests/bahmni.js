@@ -51,7 +51,7 @@ step("Open <appName> app", async function (appName) {
 });
 
 step("Check if <appName> app is opened", async function (appName) {
-    if(!await text(appName).exists())
+    if(!await text(appName).exists(0,0))
         return
     gauge.message("App name exists")
     await highlight(appName)
