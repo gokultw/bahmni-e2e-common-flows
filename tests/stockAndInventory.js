@@ -47,7 +47,7 @@ step("select Customer", async function () {
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
     var count = 1
     var maxCount = 20
-    while (!(await text(patientIdentifierValue).exists(0,0)) && count < maxCount) {
+    while (!(await text(patientIdentifierValue).exists()) && count < maxCount) {
         await waitFor(1000)
         count += 1
         await click("Quotations", below("Sales"));
