@@ -7,3 +7,15 @@
 
 # Verify the open orders in Lablite
 * Verify test prescribed is displayed on Pending Lab Orders table
+
+# Upload report in Lablite
+* Select prescribed test in Pending Lab Orders table
+* Open upload report side panel
+* Select Lab Report in side panel
+* Select today's date in Report Date Field
+* Select Doctor in side panel
+* Upload and verify the reports table
+
+# Upload and verify report in lablite
+* Upload report in Lablite
+* Verify the uploaded report
