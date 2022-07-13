@@ -89,7 +89,7 @@ step("Enter age of the patient <age>", async function (age) {
 });
 
 step("Enter patient mobile number <mobile>", async function (mobile) {
-    if(await text("Primary Contact").exists())
+    if(await text("Primary Contact").exists(0,0))
     {
         if(gauge.dataStore.scenarioStore.get("isNewPatient"))
             await write(mobile, into(textBox(toRightOf("Primary Contact"))));
