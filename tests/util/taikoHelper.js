@@ -20,7 +20,7 @@ async function repeatUntilNotVisible(element) {
     var isFound = true;
     do {
         try {
-            if (await element.exists(0, 0)) {
+            if (await element.exists()) {
                 isFound = await element.isVisible()
             }
             else {
