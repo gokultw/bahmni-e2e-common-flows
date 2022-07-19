@@ -4,7 +4,7 @@ var assert = require("assert")
 var users = require("./util/users");
 
 step("Goto paymentlite", async function() {
-	await goto(process.env.paymentLite)
+	await goto(process.env.paymentLiteurl)
 });
 
 step("Click Login", async function() {
