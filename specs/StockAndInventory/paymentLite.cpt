@@ -1,5 +1,7 @@
 # Login to paymentLite
 * Goto paymentlite
+* Enter crater Email
+* Enter crater Password
 * Click Login
 
 # Create a patient in patientLite
@@ -28,15 +30,13 @@
 # Associate the newly created patient to an invoice
 * Choose the doctor in paymentlite
 * Add a new Item
-* Enter Exchange Rate "70"
 * Choose the prescibed medicines in paymentlite
 
 # Collect the payment from the patient
 * Click Payments
 * Enter patient name for payment
-* Enter amount "150" the patient is willing to pay
-* Select the payment mode as "cash"
 * Associate the invoice to the payment
+* Select the payment mode as "cash"
 * Save payment
 
 # Note the invoice number

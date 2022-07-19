@@ -1,6 +1,8 @@
 const { goto, click, waitFor, button, write, into, textBox, below, scrollTo, above, toLeftOf, toRightOf,$, text, doubleClick, press,link } = require("taiko");
 var fileExtension = require("./util/fileExtension")
 var assert = require("assert")
+var users = require("./util/users");
+
 step("Goto paymentlite", async function() {
 	await goto(process.env.paymentLite)
 });
@@ -122,10 +124,6 @@ step("Enter patient name for payment", async function() {
 	await write(`${firstName}`, into(textBox(above("Amount"), below("Customer"))))
 	await waitFor(async () => (await $(`//span[text()='${firstName} ${middleName} ${lastName}']`).isVisible()))
 	await click(`${firstName} ${middleName} ${lastName}`)
-	await press("Enter")
-
-	// await scrollTo(firstName)
-	// await click(firstName)
 });
 
 step("Enter amount <amount> the patient is willing to pay", async function (amount) {
@@ -204,4 +202,13 @@ step("verify the payment is complete", async function() {
 
 step("Add Payment", async function() {
 	await click("Add Payment")
+});
+
+step("Enter crater Password", async function () {
+    await write(users.getPasswordFromEncoding(process.env.paymentliteuser), into(textBox(below("Password"))));
+});
+
+step("Enter crater Email", async function () {
+	await click(textBox(below("Email")))
+	await write(users.getUserNameFromEncoding(process.env.paymentliteuser), into(textBox(below("Email"))));
 });
