@@ -11,16 +11,22 @@ const {
     highlight,
     checkBox,
     toLeftOf,
+    fileField,
     timeField,
-    attach
+    attach,
+    image,
+    $
 } = require('taiko');
 var assert = require("assert");
 var fileExtension = require("../util/fileExtension");
-var date = require("./util/date");
+var date = require("../util/date");
+var users = require("../util/users")
 const taikoHelper = require("../util/taikoHelper");
 const { link } = require('fs');
+const path = require('path');
 
-step("start patient serach", async function () {
+step("start patient search", async function () {
+    await click(button({ "aria-label": "closes notification" }));
     await click(button({ "aria-label": "Search Patient" }))
 });
 
@@ -39,7 +45,7 @@ step("Select the patient in lablite search result", async function () {
 });
 
 step("Validate the lab tests <labTests> are available", async function (labTests) {
-    var prescriptionFile = `./data/${labTests}.json`;
+    var prescriptionFile = `../data/${labTests}.json`;
     var testDetail = JSON.parse(fileExtension.parseContent(prescriptionFile))
 
     assert.ok(await text(testDetail.test).exists())
@@ -61,12 +67,12 @@ step("Select prescribed test in Pending Lab Orders table", async function () {
 });
 
 step("Select Lab Report in side panel", async function () {
-    await attach(path.join("./data", `labReport1.jpg`), fileField(above("Report Date")), { waitForEvents: ['DOMContentLoaded'] });
+    await attach(path.join(__dirname, '../../data/labReport1.jpg'), fileField(above(text("Report Date"))), { waitForEvents: ['DOMContentLoaded'] });
 });
 
 step("Select today's date in Report Date Field", async function () {
-    var reportDate = date.today();
-    await write(reportDate, into(timeField(below("Report Date"))));
+    await click($('#reportDate'))
+    await click($("//SPAN[contains(@class,'today')]"))
 });
 
 step("Select Doctor in side panel", async function () {
@@ -75,13 +81,17 @@ step("Select Doctor in side panel", async function () {
 });
 
 step("Upload and verify the reports table", async function () {
-    button("Save and Upload").click();
+    var labTest = gauge.dataStore.scenarioStore.get("LabTest")
+    await click(button("Save and Upload"));
     await taikoHelper.repeatUntilNotFound($("//H3[text()='Report successfully uploaded']"));
-    assert.ok(await text(labTest, below("Reports Table"), below("Test"), toLeftOf(link("labReport1.jpg"))).exists());
+    await highlight(text(labTest, below("Reports Table"), below("Test"), toLeftOf("labReport1.jpg")))
+    assert.ok(await text(labTest, below("Reports Table"), below("Test"), toLeftOf("labReport1.jpg")).exists());
 });
 
-step("Verify the uploaded report", async function() {
-	click(link("labReport1.jpg"));
-    assert.ok(await $("//h3[text()='1kbhsg.jpeg']//..//..//img").isVisible());
-    button("close").click();
+step("Verify the uploaded report", async function () {
+    await click("labReport1.jpg");
+    await highlight($("//DIV[contains(@class,'is-visible')]//IMG/../..//h3[text()='labReport1.jpg']"))
+    await highlight($("//DIV[contains(@class,'is-visible')]//IMG"))
+    assert.ok(await $("//DIV[contains(@class,'is-visible')]//IMG/../..//h3[text()='labReport1.jpg']").exists());
+    await click(button({ "aria-label": "close" }));
 });

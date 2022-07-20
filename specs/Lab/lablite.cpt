@@ -1,5 +1,5 @@
 # Open a patient in lablite
-* start patient serach
+* start patient search
 * enter the patient name in lablite
 * wait for overlay to disappear
 * Select the patient in lablite search result
@@ -13,7 +13,6 @@
 * Open upload report side panel
 * Select Lab Report in side panel
 * Select today's date in Report Date Field
-* Select Doctor in side panel
 * Upload and verify the reports table
 
 # Upload and verify report in lablite
