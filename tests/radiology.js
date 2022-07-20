@@ -46,7 +46,7 @@ step("Search on DCM4chee", async function () {
 	await press("Enter")
 });
 
-step("click on the patient details", async function() {
+    step("click on the patient details", async function() {
     var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
     var lastName = gauge.dataStore.scenarioStore.get("patientLastName")
 
