@@ -212,3 +212,11 @@ step("Enter crater Email", async function () {
 	await click(textBox(below("Email")))
 	await write(users.getUserNameFromEncoding(process.env.paymentliteuser), into(textBox(below("Email"))));
 });
+
+step("Click Logout", async function() {
+	await click(text('Logout'));
+});
+
+step("Click on user menu", async function() {
+	await click(button({'id':'headlessui-menu-button-3'}));
+});
