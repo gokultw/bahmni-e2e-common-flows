@@ -1,16 +1,20 @@
-# Login to paymentLite
+# Login to Payment lite
 * Goto paymentlite
 * Enter crater Email
 * Enter crater Password
 * Click Login
 
-# Create a patient in patientLite
+# Logout of Payment Lite
+* Click on user menu
+* Click Logout
+
+# Create a patient in Payment Lite
 * Open Customers
 * Enter patient details in paymentLite
 * Select currency as "INR - Indian Rupee"
 * Save customer
 
-# Create a doctor in paymentLite with consultation fee <fees>
+# Create a doctor in Payment Lite with consultation fee <fees>
 * Click Items
 * Add doctor with fees <fees>
 

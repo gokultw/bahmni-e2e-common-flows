@@ -13,7 +13,7 @@ const taikoHelper = require("../util/taikoHelper")
 const headless = process.env.headless_chrome.toLowerCase() === 'true';
 
 beforeSuite(async () => {
-    await openBrowser({headless:headless, args:["--no-sandbox","--start-maximized","--disable-dev-shm-usage","--start-fullscreen",'--use-fake-ui-for-media-stream']})
+    await openBrowser({headless:headless, args:["--no-sandbox","--disable-dev-shm-usage",'--use-fake-ui-for-media-stream',"--window-size=1440,900"]})
     await setConfig( { ignoreSSLErrors: true});
 });
 
