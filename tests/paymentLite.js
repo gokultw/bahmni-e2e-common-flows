@@ -180,7 +180,7 @@ step("Note the invoice number of the patient", async function() {
 	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
 	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
 
-	var invoiceNumber = await link(toLeftOf(`${firstName} ${middleName}`)).text()
+	var invoiceNumber = await link(toLeftOf(`${firstName} ${middleName}`),below("NUMBER"),toRightOf("DATE")).text()
 	gauge.dataStore.scenarioStore.put("invoiceNumber",invoiceNumber)
 });
 
