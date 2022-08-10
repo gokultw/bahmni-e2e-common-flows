@@ -22,7 +22,8 @@ const {
     below,
     press,
     scrollTo,
-    reload
+    reload,
+    timeField
 } = require('taiko');
 var users = require("../util/users");
 var date = require("../util/date");
@@ -86,15 +87,23 @@ step("Enter age of the patient <age>", async function (age) {
         await click(checkBox(toLeftOf("Estimated")));    
     }
     gauge.dataStore.scenarioStore.put("patientAge",age)
+    var birthDate = await timeField(toRightOf("Date of Birth")).value();
+    gauge.dataStore.scenarioStore.put("patientBirthYear",birthDate.split("-")[0])
+    console.log(birthDate.split("-")[0])
 });
 
 step("Enter patient mobile number <mobile>", async function (mobile) {
+    var contactLabel = "Primary Contact";
     if(await text("Primary Contact").exists(0,0))
     {
-        if(gauge.dataStore.scenarioStore.get("isNewPatient"))
-            await write(mobile, into(textBox(toRightOf("Primary Contact"))));
-        gauge.dataStore.scenarioStore.put("patientMobileNumber",mobile)
+        contactLabel = "Primary Contact";
     }
+    else if(await text("Phone Number").exists(0,0)){
+        contactLabel = "Phone Number";
+    }
+    if(gauge.dataStore.scenarioStore.get("isNewPatient"))
+        await write(mobile, into(textBox(toRightOf(contactLabel))));
+    gauge.dataStore.scenarioStore.put("patientMobileNumber",mobile)
 });
 
 step("Click create new patient", async function () {
@@ -221,6 +230,7 @@ step("Click on home page", async function() {
 
 step("Create new record", async function() {
     await waitFor(button("Create New Record"))
+    await scrollTo(button("Create New Record"))
     await click(button("Create New Record"))
 });
 

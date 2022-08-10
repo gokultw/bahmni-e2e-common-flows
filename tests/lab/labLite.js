@@ -95,3 +95,8 @@ step("Verify the uploaded report", async function () {
     assert.ok(await $("//DIV[contains(@class,'is-visible')]//IMG/../..//h3[text()='labReport1.jpg']").exists());
     await click(button({ "aria-label": "close" }));
 });
+
+
+step("Click Home button on lab-lite", async function() {
+	await click(button({ "aria-label": "Home" }));
+});
