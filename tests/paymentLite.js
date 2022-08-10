@@ -216,13 +216,13 @@ step("Add Payment", async function () {
 	await click("Add Payment")
 });
 
-step("Enter crater Password", async function () {
-	await write(users.getPasswordFromEncoding(process.env.paymentliteuser), into(textBox(below("Password"))));
+step("Enter crater Password for <user>", async function (user) {
+	await write(users.getPasswordFromEncoding(process.env['paymentlite' + user]), into(textBox(below("Password"))));
 });
 
-step("Enter crater Email", async function () {
+step("Enter crater Email for <user>", async function (user) {
 	await click(textBox(below("Email")))
-	await write(users.getUserNameFromEncoding(process.env.paymentliteuser), into(textBox(below("Email"))));
+	await write(users.getUserNameFromEncoding(process.env['paymentlite' + user]), into(textBox(below("Email"))));
 });
 
 step("Click Logout", async function () {
@@ -230,7 +230,7 @@ step("Click Logout", async function () {
 });
 
 step("Click on user menu", async function () {
-	await click(button({ 'id': 'headlessui-menu-button-3' }));
+	await click(button(toRightOf(textBox({ "placeholder": "Search..." }))));
 });
 
 step("goto reports in payment lite", async function () {
@@ -262,7 +262,7 @@ step("Validate the downloaded report", async function () {
 	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
 	var lastName = gauge.dataStore.scenarioStore.get("patientLastName")
 	var invoiceNumber = gauge.dataStore.scenarioStore.get("invoiceNumber")
-	var invoiceAmount = gauge.dataStore.scenarioStore.get("invoiceAmount").replace(" ","")
+	var invoiceAmount = gauge.dataStore.scenarioStore.get("invoiceAmount").replace(" ", "")
 	var invoiceDate = gauge.dataStore.scenarioStore.get("invoiceDate")
 	let dataBuffer = fs.readFileSync(gauge.dataStore.scenarioStore.get("pdfReportPath"));
 	gauge.message(`Invoice - ${invoiceNumber} Amount - ${invoiceAmount} Date - ${invoiceDate}`)
