@@ -90,9 +90,9 @@ step("Upload and verify the reports table", async function () {
 
 step("Verify the uploaded report", async function () {
     await click("labReport1.jpg");
-    await highlight($("//DIV[contains(@class,'is-visible')]//IMG/../..//h3[text()='labReport1.jpg']"))
+    await highlight($("//DIV[contains(@class,'is-visible')]//IMG/../../..//h3[text()='labReport1.jpg']"))
     await highlight($("//DIV[contains(@class,'is-visible')]//IMG"))
-    assert.ok(await $("//DIV[contains(@class,'is-visible')]//IMG/../..//h3[text()='labReport1.jpg']").exists());
+    assert.ok(await $("//DIV[contains(@class,'is-visible')]//IMG/../../..//h3[text()='labReport1.jpg']").exists());
     await click(button({ "aria-label": "close" }));
 });
 
