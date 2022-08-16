@@ -34,10 +34,10 @@
 * Click Discharge
 * Click Discharge on popup
 
-# Doctor admits the patient to available bed
+# Nurse admits the patient to available bed
 * Open "InPatient" module
 * Doctor at ADT is able to view bed availability and assign bed to patient
 
-# Doctor discharges the patient
+# Nurse discharges the patient
 * Open "InPatient" module
 * Doctor at ADT gives discharge disposition

@@ -89,15 +89,14 @@ step("Enter age of the patient <age>", async function (age) {
 });
 
 step("Enter patient mobile number <mobile>", async function (mobile) {
-    var contactLabel = "Primary Contact";
-    if (await text("Primary Contact").exists(0, 0)) {
-        contactLabel = "Primary Contact";
+    if (await text("Primary Contact").exists(500, 1000)) {
+        if (gauge.dataStore.scenarioStore.get("isNewPatient"))
+            await write(mobile, into(textBox(toRightOf("Primary Contact"))));
     }
-    else if (await text("Phone Number").exists(0, 0)) {
-        contactLabel = "Phone Number";
+    else if (await text("Phone Number").exists(500, 1000)) {
+        if (gauge.dataStore.scenarioStore.get("isNewPatient"))
+            await write(mobile, into(textBox(toRightOf("Phone Number"))));
     }
-    if (gauge.dataStore.scenarioStore.get("isNewPatient"))
-        await write(mobile, into(textBox(toRightOf(contactLabel))));
     gauge.dataStore.scenarioStore.put("patientMobileNumber", mobile)
 });
 
