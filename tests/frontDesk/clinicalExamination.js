@@ -52,7 +52,7 @@ step("Doctor prescribes medicines <prescriptionNames>", async function (prescrip
             drugName = medicalPrescriptions.drug_name;
         if (await textBox(toRightOf("Drug Name")).exists()) {
             await write(drugName, into(textBox(toRightOf("Drug Name"))));
-            await click(link(drugName,below(textBox(toRightOf("Drug Name")))));
+            await click(link(drugName, below(textBox(toRightOf("Drug Name")))));
             await dropDown(toRightOf("Units")).select(medicalPrescriptions.units);
             await dropDown(toRightOf("Frequency")).select(medicalPrescriptions.frequency)
             await write(medicalPrescriptions.dose, into(textBox(toRightOf("Dose"))));
@@ -124,4 +124,5 @@ step("Doctor notes the diagnosis", async function () {
     await write("Diabetes II, uncomplicated", into(textBox(below("Condition"))));
     await click("Accept", toRightOf("Diabetes II, uncomplicated"));
     await click("Active");
+    await click(button({ 'class': 'btn--add' }))
 });
