@@ -74,6 +74,7 @@ step("Doctor captures consultation notes <notes>", async function (notes) {
     await click("Consultation", { force: true, waitForNavigation: true, waitForStart: 2000 });
     await waitFor(textBox({ placeholder: "Enter Notes here" }))
     await write(notes, into(textBox({ "placeholder": "Enter Notes here" })), { force: true })
+    gauge.dataStore.scenarioStore.put("consultationNotes", notes);
 });
 
 step("Doctor clicks consultation", async function () {
