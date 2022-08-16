@@ -104,3 +104,8 @@ step("Verify the uploaded report", async function () {
 step("Click Home button on lab-lite", async function() {
 	await click(button({ "aria-label": "Home" }));
 });
+
+step("Verify order is removed from Pending lab orders table", async function() {
+	var labTest = gauge.dataStore.scenarioStore.get("LabTest")
+    assert.ok(!await text(labTest,above("Upload Report")).exists(500,1000));
+});

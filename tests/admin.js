@@ -37,7 +37,7 @@ var assert = require("assert");
 var taikoHelper = require("./util/taikoHelper");
 var users = require("./util/users");
 const csvConfig = require("./util/csvConfig");
-var date = require("./date");
+var date = require("./util/date");
 
 
 
@@ -267,8 +267,13 @@ step("Verify Event <message> in Audit log for the <user>", async function (strMe
     var labReportFile = gauge.dataStore.scenarioStore.get("labReportFile")
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
     var username = users.getUserNameFromEncoding(process.env[strUser]);
-    var todayDate=date.getyyyymmddFormattedDate(date.today())
-    strMessage = strMessage.replace('<user>', username).replace('<patient>', patientIdentifierValue).replace('<labReportFile>',labReportFile).replace('<date>',todayDate);
+    var todayDate = date.getDateInLongFromat(date.today())
+    var labTest = gauge.dataStore.scenarioStore.get("LabTest")
+    strMessage = strMessage.replace('<user>', username)
+        .replace('<patient>', patientIdentifierValue)
+        .replace('<labReportFile>', labReportFile)
+        .replace('<date>', todayDate)
+        .replace("<labTest>", labTest);
     if (strMessage.includes(patientIdentifierValue)) {
         assert.ok(await text(strMessage, toRightOf(username), toRightOf(patientIdentifierValue)).exists());
     }
