@@ -18,3 +18,9 @@
 # Upload and verify report in lablite
 * Upload report in Lablite
 * Verify the uploaded report
+
+# Verify lab-lite audit events
+* Verify Event "User <user> accessed lab entry module" in Audit log for the "doctor"
+* Verify Event "User <user> accessed lab dashboard for patient <patient>" in Audit log for the "doctor"
+* Verify Event "User <user> uploaded Lab report (<labReportFile>) for patient <patient>" in Audit log for the "doctor"
+* Verify Event "Viewed lab report (<labReportFile>) dated (<date>) for patient <patient>" in Audit log for the "doctor"
