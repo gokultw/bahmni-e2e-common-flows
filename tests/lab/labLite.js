@@ -67,7 +67,9 @@ step("Select prescribed test in Pending Lab Orders table", async function () {
 });
 
 step("Select Lab Report in side panel", async function () {
-    await attach(path.join(__dirname, '../../data/labReport1.jpg'), fileField(above(text("Report Date"))), { waitForEvents: ['DOMContentLoaded'] });
+    var labReportFile = "labReport1.jpg";
+    gauge.dataStore.scenarioStore.put("labReportFile", labReportFile)
+    await attach(path.join(__dirname, '../../data/' + labReportFile), fileField(above(text("Report Date"))), { waitForEvents: ['DOMContentLoaded'] });
 });
 
 step("Select today's date in Report Date Field", async function () {
@@ -82,16 +84,28 @@ step("Select Doctor in side panel", async function () {
 
 step("Upload and verify the reports table", async function () {
     var labTest = gauge.dataStore.scenarioStore.get("LabTest")
+    var labReportFile = gauge.dataStore.scenarioStore.get("labReportFile")
     await click(button("Save and Upload"));
     await taikoHelper.repeatUntilNotFound($("//H3[text()='Report successfully uploaded']"));
-    await highlight(text(labTest, below("Reports Table"), below("Test"), toLeftOf("labReport1.jpg")))
-    assert.ok(await text(labTest, below("Reports Table"), below("Test"), toLeftOf("labReport1.jpg")).exists());
+    await highlight(text(labTest, below("Reports Table"), below("Test"), toLeftOf(labReportFile)))
+    assert.ok(await text(labTest, below("Reports Table"), below("Test"), toLeftOf(labReportFile)).exists());
 });
 
 step("Verify the uploaded report", async function () {
-    await click("labReport1.jpg");
-    await highlight($("//DIV[contains(@class,'is-visible')]//IMG/../../..//h3[text()='labReport1.jpg']"))
+    var labReportFile = gauge.dataStore.scenarioStore.get("labReportFile")
+    await click(labReportFile);
+    await highlight($("//DIV[contains(@class,'is-visible')]//IMG/../../..//h3[text()='" + labReportFile + "']"))
     await highlight($("//DIV[contains(@class,'is-visible')]//IMG"))
-    assert.ok(await $("//DIV[contains(@class,'is-visible')]//IMG/../../..//h3[text()='labReport1.jpg']").exists());
+    assert.ok(await $("//DIV[contains(@class,'is-visible')]//IMG/../../..//h3[text()='" + labReportFile + "']").exists());
     await click(button({ "aria-label": "close" }));
+});
+
+
+step("Click Home button on lab-lite", async function() {
+	await click(button({ "aria-label": "Home" }));
+});
+
+step("Verify order is removed from Pending lab orders table", async function() {
+	var labTest = gauge.dataStore.scenarioStore.get("LabTest")
+    assert.ok(!await text(labTest,above("Upload Report")).exists(500,1000));
 });

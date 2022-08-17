@@ -41,3 +41,11 @@
 * Manage Users
 * Find <user> using name and open
 * Give <role> to user
+
+# Filter patient
+* Enter patientId
+* Click on Filter
+
+# Navigate to Audit Log module
+* Open "Admin" module
+* Open Audit Log module
