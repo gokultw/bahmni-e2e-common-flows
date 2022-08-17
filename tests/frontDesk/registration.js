@@ -85,7 +85,6 @@ step("Enter age of the patient <age>", async function (age) {
     gauge.dataStore.scenarioStore.put("patientAge", age)
     var birthDate = await timeField(toRightOf("Date of Birth")).value();
     gauge.dataStore.scenarioStore.put("patientBirthYear", birthDate.split("-")[0])
-    console.log(birthDate.split("-")[0])
 });
 
 step("Enter patient mobile number <mobile>", async function (mobile) {

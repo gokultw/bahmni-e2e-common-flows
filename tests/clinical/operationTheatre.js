@@ -87,8 +87,9 @@ step("Add surgery", async function() {
 });
 
 step("Click doctor's OT schedule", async function() {
-    await scrollTo("10:00 am")
-	await click(process.env.surgeon)
+    let surgeonName = 'Surgeon - '+process.env.surgeon
+    await scrollTo(surgeonName)
+	await click(surgeonName)
 });
 
 step("Cancel surgeon's scheduled block", async function() {
@@ -115,7 +116,7 @@ step("Enter Patient id / name", async function() {
 });
 
 step("Goto operation day", async function () {
-    click(button(toRightOf("Today"),toLeftOf("Week")))
+    await click(button(toRightOf("Today"),toLeftOf("Week")))
 });
 
 step("Edit doctor's OT schedule", async function() {
