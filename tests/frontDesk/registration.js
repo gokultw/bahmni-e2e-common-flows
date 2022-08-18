@@ -85,7 +85,6 @@ step("Enter age of the patient <age>", async function (age) {
     gauge.dataStore.scenarioStore.put("patientAge", age)
     var birthDate = await timeField(toRightOf("Date of Birth")).value();
     gauge.dataStore.scenarioStore.put("patientBirthYear", birthDate.split("-")[0])
-    console.log(birthDate.split("-")[0])
 });
 
 step("Enter patient mobile number <mobile>", async function (mobile) {
@@ -180,7 +179,7 @@ step("Enter registration fees <arg0>", async function (arg0) {
 
 step("Click back button", async function () {
     await taikoHelper.repeatUntilNotFound($("#overlay"))
-    await click($("//A[@class='back-btn']"), { force: true, waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
+    await click($('.back-btn'), { force: true, waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
     await taikoHelper.repeatUntilNotFound($("#overlay"))
 });
 

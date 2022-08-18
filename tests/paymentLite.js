@@ -9,7 +9,7 @@ const pdf = require('pdf-parse');
 const axios = require('axios')
 
 step("Goto paymentlite", async function () {
-	await goto(process.env.paymentLiteurl)
+	await goto(process.env.paymentLiteurl, { waitForNavigation: true })
 });
 
 step("Click Login", async function () {
@@ -17,7 +17,7 @@ step("Click Login", async function () {
 });
 
 step("Open Customers", async function () {
-	await click("Customers")
+	await click("Customers", { waitForNavigation: true })
 	await waitFor(async () => (await button("New Customer").exists()))
 	await click(button("New Customer"))
 	await waitFor("Basic Info")
@@ -42,7 +42,7 @@ step("Save customer", async function () {
 });
 
 step("Click Items", async function () {
-	await click("Items")
+	await click("Items", { waitForNavigation: true })
 	await waitFor(async () => (await button("Add Item").exists()))
 });
 
@@ -75,7 +75,7 @@ step("Add a drug with price <price>", async function (price) {
 });
 
 step("Click Invoices", async function () {
-	await click("Invoices")
+	await click("Invoices", { waitForNavigation: true })
 	await waitFor(async () => (await button("New Invoice").exists()))
 });
 
@@ -91,7 +91,8 @@ step("Choose the patient", async function () {
 step("Choose the doctor in paymentlite", async function () {
 	await click(textBox(above("Add New Item"), below("Items")))
 	var doctorFirstName = gauge.dataStore.scenarioStore.get("doctorFirstName");
-	await scrollTo(doctorFirstName)
+	await waitFor(async () => (await $(`//span[starts-with(text(),'${doctorFirstName}')]`).isVisible()))
+	await scrollTo($(`//span[starts-with(text(),'${doctorFirstName}')]`));
 	await click(doctorFirstName)
 });
 
@@ -105,17 +106,17 @@ step("Choose the prescibed medicines in paymentlite", async function () {
 	var prescriptionFile = gauge.dataStore.scenarioStore.get("prescriptions");
 	var medicalPrescriptions = JSON.parse(fileExtension.parseContent(prescriptionFile))
 	var drugName = medicalPrescriptions.drug_name;
-
-	await scrollTo(drugName)
+	await waitFor(async () => (await $(`//span[text()='${drugName}']`).isVisible()))
+	await scrollTo($(`//span[text()='${drugName}']`));
 	await click(drugName)
 });
 
 step("Save Invoice", async function () {
-	await click(button("Save Invoice"))
+	await click(button("Save Invoice"), { waitForNavigation: true })
 });
 
 step("Click Payments", async function () {
-	await click("payments")
+	await click("payments", { waitForNavigation: true })
 	await waitFor(async () => (await button("Add Payment").exists()))
 	await click("Add Payment")
 	await waitFor("New Payment")
@@ -151,7 +152,7 @@ step("Enter Exchange Rate <rate>", async function (rate) {
 });
 
 step("Click Customers", async function () {
-	await click("Customers")
+	await click("Customers", { waitForNavigation: true })
 });
 
 step("Select customer", async function () {
@@ -167,19 +168,19 @@ step("Click New Transaction", async function () {
 });
 
 step("New Payment", async function () {
-	await click("New Payment")
+	await click("New Payment", { waitForNavigation: true })
 });
 
 step("Save payment", async function () {
-	await click("Save payment")
+	await click("Save payment", { waitForNavigation: true })
 });
 
 step("Goto the tab Draft", async function () {
-	await click("Draft")
+	await click("Draft", { waitForNavigation: true })
 });
 
 step("Goto the tab All", async function () {
-	await click("All")
+	await click("All", { waitForNavigation: true })
 });
 
 step("Note the Date, Invoice Number and Amount of the patient", async function () {
@@ -200,12 +201,12 @@ step("Note the Date, Invoice Number and Amount of the patient", async function (
 step("Associate the invoice to the payment", async function () {
 	var invoiceNumber = gauge.dataStore.scenarioStore.get("invoiceNumber")
 	await click($(".bg-multiselect-caret", toRightOf("Select Invoice")))
-	await click(invoiceNumber)
+	await click(invoiceNumber, { waitForNavigation: true })
 });
 
 step("open the invoice", async function () {
 	var invoiceNumber = gauge.dataStore.scenarioStore.get("invoiceNumber")
-	await click(link(invoiceNumber))
+	await click(link(invoiceNumber), { waitForNavigation: true })
 });
 
 step("verify the payment is complete", async function () {
@@ -235,7 +236,7 @@ step("Click on user menu", async function () {
 });
 
 step("goto reports in payment lite", async function () {
-	await click(link("Reports"));
+	await click(link("Reports"), { waitForNavigation: true });
 });
 
 step("Validate Report is displayed", async function () {
