@@ -22,7 +22,7 @@ step("Goto Administration", async function () {
 });
 
 step("Goto openMRS", async function () {
-    await goto(process.env.bahmniHost + "openmrs", { waitForNavigation: true, navigationTimeout: process.env.loginTimeout });
+    await goto(process.env.bahmniHost + "/openmrs", { waitForNavigation: true, navigationTimeout: process.env.loginTimeout });
 });
 
 step("Log out of openMRS if still logged in", async function () {
