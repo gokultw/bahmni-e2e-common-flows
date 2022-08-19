@@ -26,6 +26,7 @@
 * Enter patient random last name
 * Enter patient gender <gender>
 * Enter age of the patient <age>
+* Enter patient mobile number <mobileNumber>
 * Save the patient data
 
 # Open clinical tab
