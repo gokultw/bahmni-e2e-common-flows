@@ -41,3 +41,10 @@
 * Manage Users
 * Find <user> using name and open
 * Give <role> to user
+
+# Verify Patient Documents in patient dashboard
+* Open "Clinical" module
+* Goto All sections
+* Search the newly created patient
+* wait for overlay to disappear
+* validate patient document in patient dashboard

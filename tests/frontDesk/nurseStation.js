@@ -109,10 +109,11 @@ step("Click Admit on popup", async function () {
 	// await click(text('Admit', within($('[ng-click="admitConfirmation()"]'))));
 });
 
-step("Enter Form Values <observationFormFile>", async function (observationFormFile) {
-	var observationFormValues = JSON.parse(fileExtension.parseContent(`./bahmni-e2e-common-flows/data/opConsultation/${observationFormFile}.json`))
+step("Enter Form Values <observationFormFile>", async function (vitalFormFile) {
+	var vitalFormValues = JSON.parse(fileExtension.parseContent(`./bahmni-e2e-common-flows/data/${vitalFormFile}.json`))
+	gauge.dataStore.scenarioStore.put("vitalFormValues", vitalFormValues)
 	await taikoHelper.repeatUntilNotFound($("#overlay"))
-	await taikoHelper.executeConfigurations(observationFormValues.ObservationFormDetails, observationFormValues.ObservationFormName)
+	await taikoHelper.executeConfigurations(vitalFormValues.ObservationFormDetails, vitalFormValues.ObservationFormName)
 
 	await click("Save", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
 	await taikoHelper.repeatUntilNotFound($("#overlay"))

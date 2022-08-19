@@ -52,7 +52,7 @@ step("Doctor prescribes medicines <prescriptionNames>", async function (prescrip
             drugName = medicalPrescriptions.drug_name;
         if (await textBox(toRightOf("Drug Name")).exists()) {
             await write(drugName, into(textBox(toRightOf("Drug Name"))));
-            await click(link(drugName,below(textBox(toRightOf("Drug Name")))));
+            await click(link(drugName, below(textBox(toRightOf("Drug Name")))));
             await dropDown(toRightOf("Units")).select(medicalPrescriptions.units);
             await dropDown(toRightOf("Frequency")).select(medicalPrescriptions.frequency)
             await write(medicalPrescriptions.dose, into(textBox(toRightOf("Dose"))));
@@ -71,6 +71,7 @@ step("Doctor prescribes medicines <prescriptionNames>", async function (prescrip
 });
 
 step("Doctor captures consultation notes <notes>", async function (notes) {
+    gauge.dataStore.scenarioStore.put("consultationNotes",notes)
     await click("Consultation", { force: true, waitForNavigation: true, waitForStart: 2000 });
     await waitFor(textBox({ placeholder: "Enter Notes here" }))
     await write(notes, into(textBox({ "placeholder": "Enter Notes here" })), { force: true })
@@ -124,4 +125,24 @@ step("Doctor notes the diagnosis", async function () {
     await write("Diabetes II, uncomplicated", into(textBox(below("Condition"))));
     await click("Accept", toRightOf("Diabetes II, uncomplicated"));
     await click("Active");
+});
+
+
+step("Doctor notes the diagnosis and condition <filePath>", async function(filePath) {
+	var diagnosisFile = `./data/${filePath}.json`;
+    gauge.dataStore.scenarioStore.put("diagnosisFile", diagnosisFile)
+    var medicalDiagnosis = JSON.parse(fileExtension.parseContent(diagnosisFile))
+    gauge.message(medicalDiagnosis)
+    await click("Diagnosis");
+    await write(medicalDiagnosis.diagnosis.diagnosisName, into(textBox(below("Diagnosis"))));
+    await click("Accept", toRightOf(medicalDiagnosis.diagnosis.diagnosisName))
+    await click(medicalDiagnosis.diagnosis.order, below("Order"));
+    await click(medicalDiagnosis.diagnosis.certainty, below("Certainty"));
+    for (var i = 0; i < medicalDiagnosis.condition.length; i++) {
+        await write(medicalDiagnosis.condition[i].conditionName, into(textBox(below("Condition"))));
+        waitFor(2000);
+        await click("Accept", toRightOf(medicalDiagnosis.condition[i].conditionName))
+        await click(medicalDiagnosis.condition[i].status, below($("//div[@class='col col2']//span[contains(text(),'Status')]")));
+        await click("Add", below("Action"))
+    }
 });

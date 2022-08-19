@@ -1,8 +1,8 @@
-# Enter vitals
+# Enter vitals <Vitals>
 * reload the page
 * wait for overlay to disappear
 * Click Vitals
-* Enter Form Values "Vitals"
+* Enter Form Values <Vitals>
 
 # Doctor issues an Admit disposition
 * Open clinical tab
@@ -72,3 +72,12 @@
 * Select program starting <numberOfYearsAgo_startDate> years ago with treatment start <numberOfYearsAgo_treatmentDate> years ago
 * Select other details id "1234", dr incharge "doctor" and treatment stage "Initial Stage"
 * Enroll in program
+
+# Doctor notes the diagnosis and conditions <diagnosis_condition>
+* Open "Diagnosis" Tab
+* Doctor notes the diagnosis and condition <diagnosis_condition>
+* Save data
+
+# Enter History and Examination details <historyExamination>
+* Enter History and examination details <historyExamination>
+* Save data
