@@ -9,7 +9,7 @@ const pdf = require('pdf-parse');
 const axios = require('axios')
 
 step("Goto paymentlite", async function () {
-	await goto(process.env.paymentLiteurl, { waitForNavigation: true })
+	await goto(process.env.paymentLiteurl+'/login', { waitForNavigation: true })
 });
 
 step("Click Login", async function () {
@@ -143,7 +143,7 @@ step("Select the payment mode as <paymentMode>", async function (paymentMode) {
 });
 
 step("Create a new invoice", async function () {
-	await click("New Invoice")
+	await click("New Invoice", { waitForNavigation: true })
 });
 
 step("Enter Exchange Rate <rate>", async function (rate) {
@@ -183,19 +183,26 @@ step("Goto the tab All", async function () {
 	await click("All", { waitForNavigation: true })
 });
 
-step("Note the Date, Invoice Number and Amount of the patient", async function () {
+step("Note the Date", async function () {
+	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
+	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
+
+	var invoiceDate = await text('/([0-9]+(/[0-9]+)+(/[0-9]+))/', toLeftOf(`${firstName} ${middleName}`), below("DATE")).text()
+	gauge.dataStore.scenarioStore.put("invoiceDate", invoiceDate)
+});
+step("Note the Invoice Number", async function () {
 	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
 	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
 
 	var invoiceNumber = await link(toLeftOf(`${firstName} ${middleName}`), below("NUMBER"), toRightOf("DATE")).text()
 	gauge.dataStore.scenarioStore.put("invoiceNumber", invoiceNumber)
+});
+step("Note the Amount", async function () {
+	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
+	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
 
 	var invoiceAmount = await text('/₹ [0-9]*\.[0-9]+/', toRightOf(`${firstName} ${middleName}`), below("TOTAL")).text()
 	gauge.dataStore.scenarioStore.put("invoiceAmount", invoiceAmount)
-
-	var invoiceDate = await text('/([0-9]+(/[0-9]+)+(/[0-9]+))/', toLeftOf(`${firstName} ${middleName}`), below("DATE")).text()
-	gauge.dataStore.scenarioStore.put("invoiceDate", invoiceDate)
-
 });
 
 step("Associate the invoice to the payment", async function () {
@@ -219,12 +226,12 @@ step("Add Payment", async function () {
 });
 
 step("Enter crater Password for <user>", async function (user) {
-	await write(users.getPasswordFromEncoding(process.env['paymentlite' + user]), into(textBox(below("Password"))));
+	await write(users.getPasswordFromEncoding(process.env['paymentLite' + user]), into(textBox(below("Password"))));
 });
 
 step("Enter crater Email for <user>", async function (user) {
 	await click(textBox(below("Email")))
-	await write(users.getUserNameFromEncoding(process.env['paymentlite' + user]), into(textBox(below("Email"))));
+	await write(users.getUserNameFromEncoding(process.env['paymentLite' + user]), into(textBox(below("Email"))));
 });
 
 step("Click Logout", async function () {
@@ -276,6 +283,7 @@ step("Validate the downloaded report", async function () {
 });
 
 step("create Login Users for paymentlite", async function () {
+	console.log("Creating users if not exists.")
 	let company = "1";
 	var loginData = await axios({
 		url: process.env.paymentLiteurl + process.env.paymentLiteLogin,
@@ -306,7 +314,7 @@ step("create Login Users for paymentlite", async function () {
 		}
 	});
 	frontDeskData = userData.data.data.filter(users => users.email == frontdesk);
-	if (frontDeskData.length = 0) {
+	if (frontDeskData.length == 0) {
 		let createFrontDeskUserData = await axios({
 			url: process.env.paymentLiteurl + process.env.paymentLiteListUsers,
 			method: 'post',
@@ -317,7 +325,7 @@ step("create Login Users for paymentlite", async function () {
 				"companies": [
 					{
 						"id": "1",
-						"role": "frontdesk"
+						"role": "front desk"
 					}
 				]
 			},
@@ -331,7 +339,7 @@ step("create Login Users for paymentlite", async function () {
 		assert.equal(createFrontDeskUserData.status, 201, "Front Desk user not created.")
 	}
 	doctorData = userData.data.data.filter(users => users.email == doctor);
-	if (doctorData.length = 0) {
+	if (doctorData.length == 0) {
 		let createDoctorData = await axios({
 			url: process.env.paymentLiteurl + process.env.paymentLiteListUsers,
 			method: 'post',
