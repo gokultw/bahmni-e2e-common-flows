@@ -44,10 +44,9 @@ step("Confirm sale", async function () {
 });
 
 step("Goto Odoo", async function () {
-    await reload()
     await goto(process.env.odooURL, { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
 });
 
 step("Click Quotations", async function () {
-    await click("Quotations")
+    await click("Quotations", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout })
 });
