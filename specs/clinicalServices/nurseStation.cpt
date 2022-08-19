@@ -1,5 +1,5 @@
-# Nurse at ADT is able to view bed availability and assign bed to patient
-* Nurse opens admission tab
+# Doctor at ADT is able to view bed availability and assign bed to patient
+* Doctor opens admission tab
 * Select the newly created patient for IP Admission
 * wait for overlay to disappear
 * Select Patient Movement "Admit Patient"
@@ -9,7 +9,7 @@
 * Allocate available bed
 * Click Assign
 
-# Nurse at ADT gives discharge disposition
+# Doctor at ADT gives discharge disposition
 * Goto All section
 * Select the newly created patient for IP Discharge
 * wait for overlay to disappear
@@ -36,8 +36,8 @@
 
 # Nurse admits the patient to available bed
 * Open "InPatient" module
-* Nurse at ADT is able to view bed availability and assign bed to patient
+* Doctor at ADT is able to view bed availability and assign bed to patient
 
 # Nurse discharges the patient
 * Open "InPatient" module
-* Nurse at ADT gives discharge disposition
+* Doctor at ADT gives discharge disposition

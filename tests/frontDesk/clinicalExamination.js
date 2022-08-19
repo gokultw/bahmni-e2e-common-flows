@@ -75,6 +75,7 @@ step("Doctor captures consultation notes <notes>", async function (notes) {
     await click("Consultation", { force: true, waitForNavigation: true, waitForStart: 2000 });
     await waitFor(textBox({ placeholder: "Enter Notes here" }))
     await write(notes, into(textBox({ "placeholder": "Enter Notes here" })), { force: true })
+    gauge.dataStore.scenarioStore.put("consultationNotes", notes);
 });
 
 step("Doctor clicks consultation", async function () {
@@ -115,18 +116,6 @@ step("Join teleconsultation", async function () {
     await highlight('Tele Consultation')
     await click(($('[ng-click="closeTeleConsultation()"]')));
 });
-
-step("Doctor notes the diagnosis", async function () {
-    await click("Diagnosis");
-    await write("Cardiac arrest", into(textBox(below("Diagnosis"))));
-    await click("Accept", toRightOf("Cardiac arrest"))
-    await click("Primary", below("Order"));
-    await click("Confirmed", below("Certainty"));
-    await write("Diabetes II, uncomplicated", into(textBox(below("Condition"))));
-    await click("Accept", toRightOf("Diabetes II, uncomplicated"));
-    await click("Active");
-});
-
 
 step("Doctor notes the diagnosis and condition <filePath>", async function(filePath) {
 	var diagnosisFile = `./data/${filePath}.json`;

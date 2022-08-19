@@ -7,7 +7,7 @@ step("Enter password in ELIS", async function () {
 });
 
 step("goto ELIS home", async function () {
-        await goto(process.env.bahmniHost + process.env.openelisHome);
+        await goto(process.env.bahmniHost + process.env.openelisHome, { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
 });
 
 step("enter user name in ELIS", async function () {

@@ -48,3 +48,11 @@
 * Search the newly created patient
 * wait for overlay to disappear
 * validate patient document in patient dashboard
+
+# Filter patient
+* Enter patientId
+* Click on Filter
+
+# Navigate to Audit Log module
+* Open "Admin" module
+* Open Audit Log module

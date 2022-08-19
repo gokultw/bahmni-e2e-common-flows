@@ -1,38 +1,15 @@
 const { goto, below, write, textBox, into, click, toLeftOf, checkBox, reload, text, waitFor, highlight, screenshot } = require('taiko');
 
 step("enter odoo username", async function () {
-    try {
-        if (await textBox(below("Email")).exists()) {
-            await write(process.env.odooUsername, into(textBox(below("Email"))));
-        }
-    }
-    catch (e) {
-        gauge.message(`Email field not available, user is already logged in or page not loaded properly`)
-    }
+    await write(process.env.odooUsername, into(textBox(below("Email"))));
 });
 
 step("enter odoo password", async function () {
-    try {
-        if (await textBox(below("Password")).exists()) {
-            await write(process.env.odooPassword, into(textBox(below("Password"))));
-        }
-    }
-    catch (e) {
-        gauge.message(`Password field not available, user is already logged in or page not loaded properly`)
-    }
+    await write(process.env.odooPassword, into(textBox(below("Password"))));
 });
 
 step("Log in to odoo", async function () {
-    try {
-        if (await textBox(below("Password")).exists()) {
-            await click("Log in",
-                { waitForNavigation: true, navigationTimeout: process.env.actionTimeout }
-            );
-        }
-    }
-    catch (e) {
-        gauge.message(`Login button not available, user is already logged in or page not loaded properly`)
-    }
+    await click("Log in", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout })
 });
 
 step("Click Sales", async function () {
@@ -45,14 +22,20 @@ step("View Quotations below direct sales", async function () {
 
 step("select Customer", async function () {
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
-    var count = 1
-    var maxCount = 20
-    while (!(await text(patientIdentifierValue).exists()) && count < maxCount) {
-        await waitFor(1000)
-        count += 1
-        await click("Quotations", below("Sales"));
+    var maxRetry = 5
+    while (maxRetry > 0) {
+        await waitFor(1000);
+        if (await text(patientIdentifierValue).exists(500, 1000)) {
+            maxRetry = 0
+            await click(patientIdentifierValue);
+        }
+        else {
+            maxRetry = maxRetry - 1;
+            console.log(" Waiting for 5 seconds and reload the Quotations page. Remaining attempts " + maxRetry)
+            await waitFor(4000);
+            await reload({ waitForNavigation: true });
+        }
     }
-    await click(patientIdentifierValue);
 });
 
 step("Confirm sale", async function () {
@@ -61,10 +44,9 @@ step("Confirm sale", async function () {
 });
 
 step("Goto Odoo", async function () {
-    await reload()
     await goto(process.env.odooURL, { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
 });
 
 step("Click Quotations", async function () {
-    await click("Quotations")
+    await click("Quotations", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout })
 });

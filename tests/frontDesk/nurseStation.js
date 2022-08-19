@@ -27,7 +27,7 @@ const {
 const taikoHelper = require("../util/taikoHelper")
 var fileExtension = require("../util/fileExtension");
 
-step("Nurse opens admission tab", async function () {
+step("Doctor opens admission tab", async function () {
 	await taikoHelper.repeatUntilNotFound($("#overlay"))
 	await click("To Admit", { force: true, waitForNavigation: true, navigationTimeout: process.env.actionTimeout })
 });
