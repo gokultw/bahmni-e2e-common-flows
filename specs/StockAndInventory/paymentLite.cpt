@@ -1,7 +1,7 @@
-# Login to Payment lite
+# Login to Payment lite as <user>
 * Goto paymentlite
-* Enter crater Email
-* Enter crater Password
+* Enter crater Email for <user>
+* Enter crater Password for <user>
 * Click Login
 
 # Logout of Payment Lite
@@ -47,7 +47,9 @@
 * Click Invoices
 * Goto the tab Draft
 * Goto the tab All
-* Note the Date, Invoice Number and Amount of the patient
+* Note the Date
+* Note the Invoice Number
+* Note the Amount
 
 # Verify the payment is complete
 * Click Invoices
