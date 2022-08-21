@@ -71,6 +71,7 @@ step("Doctor prescribes medicines <prescriptionNames>", async function (prescrip
 });
 
 step("Doctor captures consultation notes <notes>", async function (notes) {
+    gauge.dataStore.scenarioStore.put("consultationNotes",notes)
     await click("Consultation", { force: true, waitForNavigation: true, waitForStart: 2000 });
     await waitFor(textBox({ placeholder: "Enter Notes here" }))
     await write(notes, into(textBox({ "placeholder": "Enter Notes here" })), { force: true })
@@ -116,14 +117,21 @@ step("Join teleconsultation", async function () {
     await click(($('[ng-click="closeTeleConsultation()"]')));
 });
 
-step("Doctor notes the diagnosis", async function () {
+step("Doctor notes the diagnosis and condition <filePath>", async function(filePath) {
+	var diagnosisFile = `./data/${filePath}.json`;
+    gauge.dataStore.scenarioStore.put("diagnosisFile", diagnosisFile)
+    var medicalDiagnosis = JSON.parse(fileExtension.parseContent(diagnosisFile))
+    gauge.message(medicalDiagnosis)
     await click("Diagnosis");
-    await write("Cardiac arrest", into(textBox(below("Diagnosis"))));
-    await click("Accept", toRightOf("Cardiac arrest"))
-    await click("Primary", below("Order"));
-    await click("Confirmed", below("Certainty"));
-    await write("Diabetes II, uncomplicated", into(textBox(below("Condition"))));
-    await click("Accept", toRightOf("Diabetes II, uncomplicated"));
-    await click("Active");
-    await click(button({ 'class': 'btn--add' }))
+    await write(medicalDiagnosis.diagnosis.diagnosisName, into(textBox(below("Diagnosis"))));
+    await click("Accept", toRightOf(medicalDiagnosis.diagnosis.diagnosisName))
+    await click(medicalDiagnosis.diagnosis.order, below("Order"));
+    await click(medicalDiagnosis.diagnosis.certainty, below("Certainty"));
+    for (var i = 0; i < medicalDiagnosis.condition.length; i++) {
+        await write(medicalDiagnosis.condition[i].conditionName, into(textBox(below("Condition"))));
+        waitFor(2000);
+        await click("Accept", toRightOf(medicalDiagnosis.condition[i].conditionName))
+        await click(medicalDiagnosis.condition[i].status, below($("//div[@class='col col2']//span[contains(text(),'Status')]")));
+        await click("Add", below("Action"))
+    }
 });

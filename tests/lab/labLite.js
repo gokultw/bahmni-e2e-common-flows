@@ -15,7 +15,8 @@ const {
     timeField,
     attach,
     image,
-    $
+    $,
+    within
 } = require('taiko');
 var assert = require("assert");
 var fileExtension = require("../util/fileExtension");
@@ -42,13 +43,6 @@ step("Select the patient in lablite search result", async function () {
     var patientLastName = gauge.dataStore.scenarioStore.get("patientLastName");
     assert.ok(await text("Found 1 patient").exists())
     await click(`${patientFirstName} ${patientMiddleName} ${patientLastName}`)
-});
-
-step("Validate the lab tests <labTests> are available", async function (labTests) {
-    var prescriptionFile = `../data/${labTests}.json`;
-    var testDetail = JSON.parse(fileExtension.parseContent(prescriptionFile))
-
-    assert.ok(await text(testDetail.test).exists())
 });
 
 step("Verify test prescribed is displayed on Pending Lab Orders table", async function () {
