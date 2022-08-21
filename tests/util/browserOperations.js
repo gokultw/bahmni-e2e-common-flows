@@ -41,24 +41,24 @@ step("close tab", async function () {
     await closeTab()
 });
 
-var filePath
+var videoDir
 beforeScenario(async (context) => {
     await openBrowser({ headless: headless, args: ["--no-sandbox", "--disable-dev-shm-usage", '--use-fake-ui-for-media-stream', "--window-size=1440,900"] })
     await setConfig({ ignoreSSLErrors: true });
     let scenarioName = context.currentScenario.name;
-    filePath = process.env.video_file_path + '/' + scenarioName.replace(/ /g, "_") + '/video.mp4';
-    await video.startRecording(filePath);
+    videoDir = process.env.video_file_path + '/' + scenarioName.replace(/ /g, "_")
+    await video.startRecording(videoDir + '/video.mp4');
 });
 
 afterScenario(async (context) => {
     try {
         await video.stopRecording();
         if (!context.currentScenario.isFailed) {
-            fileExtension.remove(filePath);
+            fileExtension.removeDir(videoDir);
             console.log("Video deleted for scenario - " + context.currentScenario.name)
         } else {
-            if (fileExtension.exists(filePath)) {
-                console.log("Video successfully saved - " + filePath)
+            if (fileExtension.exists(videoDir)) {
+                console.log("Video successfully saved - " + videoDir+'/video.mp4')
             } else {
                 console.log("Video not successfully saved for scenario - " + context.currentScenario.name)
             }

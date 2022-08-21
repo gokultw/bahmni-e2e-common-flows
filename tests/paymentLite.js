@@ -9,7 +9,7 @@ const pdf = require('pdf-parse');
 const axios = require('axios')
 
 step("Goto paymentlite", async function () {
-	await goto(process.env.paymentLiteurl+'/login', { waitForNavigation: true })
+	await goto(process.env.paymentLiteurl + '/login', { waitForNavigation: true })
 });
 
 step("Click Login", async function () {
@@ -285,82 +285,95 @@ step("Validate the downloaded report", async function () {
 step("create Login Users for paymentlite", async function () {
 	console.log("Creating users if not exists.")
 	let company = "1";
-	var loginData = await axios({
-		url: process.env.paymentLiteurl + process.env.paymentLiteLogin,
-		method: 'post',
-		data: {
-			"username": users.getUserNameFromEncoding(process.env.paymentLiteAdmin),
-			"password": users.getPasswordFromEncoding(process.env.paymentLiteAdmin),
-			"device_name": "mobile_app"
-		},
-		headers: {
-			'accept': `application/json`,
-			'Content-Type': `application/json`,
-			"Company": company
-		}
-	});
+	let max_Retry = 3
+	while (max_Retry > 0) {
+		try {
+			await waitFor(1000);
+			var loginData = await axios({
+				url: process.env.paymentLiteurl + process.env.paymentLiteLogin,
+				method: 'post',
+				data: {
+					"username": users.getUserNameFromEncoding(process.env.paymentLiteAdmin),
+					"password": users.getPasswordFromEncoding(process.env.paymentLiteAdmin),
+					"device_name": "mobile_app"
+				},
+				headers: {
+					'accept': `application/json`,
+					'Content-Type': `application/json`,
+					"Company": company
+				}
+			});
 
-	frontdesk = users.getUserNameFromEncoding(process.env.paymentLiteFrontDesk)
-	doctor = users.getUserNameFromEncoding(process.env.paymentLiteDoctor)
+			frontdesk = users.getUserNameFromEncoding(process.env.paymentLiteFrontDesk)
+			doctor = users.getUserNameFromEncoding(process.env.paymentLiteDoctor)
 
-	var userData = await axios({
-		url: process.env.paymentLiteurl + process.env.paymentLiteListUsers,
-		method: 'get',
-		headers: {
-			'accept': `application/json`,
-			'Content-Type': `application/json`,
-			'Authorization': `${loginData.data.type} ${loginData.data.token}`,
-			"Company": company
+			var userData = await axios({
+				url: process.env.paymentLiteurl + process.env.paymentLiteListUsers,
+				method: 'get',
+				headers: {
+					'accept': `application/json`,
+					'Content-Type': `application/json`,
+					'Authorization': `${loginData.data.type} ${loginData.data.token}`,
+					"Company": company
+				}
+			});
+			frontDeskData = userData.data.data.filter(users => users.email == frontdesk);
+			if (frontDeskData.length == 0) {
+				let createFrontDeskUserData = await axios({
+					url: process.env.paymentLiteurl + process.env.paymentLiteListUsers,
+					method: 'post',
+					data: {
+						"name": "Front Desk",
+						"email": frontdesk,
+						"password": users.getPasswordFromEncoding(process.env.paymentLiteFrontDesk),
+						"companies": [
+							{
+								"id": "1",
+								"role": "front desk"
+							}
+						]
+					},
+					headers: {
+						'accept': `application/json`,
+						'Content-Type': `application/json`,
+						'Authorization': `${loginData.data.type} ${loginData.data.token}`,
+						"Company": company
+					}
+				});
+				assert.equal(createFrontDeskUserData.status, 201, "Front Desk user not created.")
+			}
+			doctorData = userData.data.data.filter(users => users.email == doctor);
+			if (doctorData.length == 0) {
+				let createDoctorData = await axios({
+					url: process.env.paymentLiteurl + process.env.paymentLiteListUsers,
+					method: 'post',
+					data: {
+						"name": "Doctor",
+						"email": doctor,
+						"password": users.getPasswordFromEncoding(process.env.paymentLiteDoctor),
+						"companies": [
+							{
+								"id": "1",
+								"role": "Doctor"
+							}
+						]
+					},
+					headers: {
+						'accept': `application/json`,
+						'Content-Type': `application/json`,
+						'Authorization': `${loginData.data.type} ${loginData.data.token}`,
+						"Company": company
+					}
+				});
+				assert.equal(createDoctorData.status, 201, "Doctor user not created.")
+			}
 		}
-	});
-	frontDeskData = userData.data.data.filter(users => users.email == frontdesk);
-	if (frontDeskData.length == 0) {
-		let createFrontDeskUserData = await axios({
-			url: process.env.paymentLiteurl + process.env.paymentLiteListUsers,
-			method: 'post',
-			data: {
-				"name": "Front Desk",
-				"email": frontdesk,
-				"password": users.getPasswordFromEncoding(process.env.paymentLiteFrontDesk),
-				"companies": [
-					{
-						"id": "1",
-						"role": "front desk"
-					}
-				]
-			},
-			headers: {
-				'accept': `application/json`,
-				'Content-Type': `application/json`,
-				'Authorization': `${loginData.data.type} ${loginData.data.token}`,
-				"Company": company
-			}
-		});
-		assert.equal(createFrontDeskUserData.status, 201, "Front Desk user not created.")
-	}
-	doctorData = userData.data.data.filter(users => users.email == doctor);
-	if (doctorData.length == 0) {
-		let createDoctorData = await axios({
-			url: process.env.paymentLiteurl + process.env.paymentLiteListUsers,
-			method: 'post',
-			data: {
-				"name": "Doctor",
-				"email": doctor,
-				"password": users.getPasswordFromEncoding(process.env.paymentLiteDoctor),
-				"companies": [
-					{
-						"id": "1",
-						"role": "Doctor"
-					}
-				]
-			},
-			headers: {
-				'accept': `application/json`,
-				'Content-Type': `application/json`,
-				'Authorization': `${loginData.data.type} ${loginData.data.token}`,
-				"Company": company
-			}
-		});
-		assert.equal(createDoctorData.status, 201, "Doctor user not created.")
+		catch (e) {
+			max_Retry = max_Retry - 1
+			console.log(e.message);
+			console.log("Request to Payment Lite Failed, attempting again after 2 seconds, attempts left - "+max_Retry);
+			await waitFor(1000);
+		}
+
 	}
 });

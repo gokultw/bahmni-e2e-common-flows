@@ -1,5 +1,5 @@
 const { goto, below, write, textBox, into, click, toLeftOf, checkBox, reload, text, waitFor, highlight, screenshot } = require('taiko');
-
+var assert = require("assert")
 step("enter odoo username", async function () {
     await write(process.env.odooUsername, into(textBox(below("Email"))));
 });
@@ -31,7 +31,8 @@ step("select Customer", async function () {
         }
         else {
             maxRetry = maxRetry - 1;
-            console.log(" Waiting for 5 seconds and reload the Quotations page. Remaining attempts " + maxRetry)
+            assert.ok(maxRetry > 0, "Quotation not found in Odoo for patient - " + patientIdentifierValue)
+            console.log("Waiting for 5 seconds and reload the Quotations page to wait for Patient ID - " + patientIdentifierValue + ". Remaining attempts " + maxRetry)
             await waitFor(4000);
             await reload({ waitForNavigation: true });
         }
@@ -41,6 +42,8 @@ step("select Customer", async function () {
 step("Confirm sale", async function () {
     await waitFor(async () => (await text("Confirm Sale").exists()))
     await click("Confirm Sale");
+    await waitFor(async () => (await text("Quotation confirmed").exists()))
+    assert.ok(await text("Quotation confirmed").exists());
 });
 
 step("Goto Odoo", async function () {
