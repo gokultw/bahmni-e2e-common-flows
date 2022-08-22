@@ -142,13 +142,25 @@ step(["Log out if still logged in", "Receptionist logs out"], async function () 
     }
 })
 
-step("Login as user <user> with admin credentials location <location>", async function (user, location) {
+step("Login as user <user> with location <location>", async function (user, location) {
     if (!textBox(toRightOf("Username")).exists(0, 0)) {
         await reload()
     }
     await write(users.getUserNameFromEncoding(process.env[user]), into(textBox(toRightOf("Username"))));
     await write(users.getPasswordFromEncoding(process.env[user]), into(textBox(toRightOf("Password"))));
     await dropDown("Location").select(location);
+    await click(button("Login"), { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
+    await taikoHelper.repeatUntilNotFound(text("BAHMNI EMR LOGIN"))
+    await taikoHelper.repeatUntilNotFound($("#overlay"))
+});
+
+step("Login as user <user>", async function (user) {
+    if (!textBox(toRightOf("Username")).exists(0, 0)) {
+        await reload()
+    }
+    await write(users.getUserNameFromEncoding(process.env[user]), into(textBox(toRightOf("Username"))));
+    await write(users.getPasswordFromEncoding(process.env[user]), into(textBox(toRightOf("Password"))));
+    await dropDown("Location").select({ index: '1' });
     await click(button("Login"), { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
     await taikoHelper.repeatUntilNotFound(text("BAHMNI EMR LOGIN"))
     await taikoHelper.repeatUntilNotFound($("#overlay"))

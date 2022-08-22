@@ -5,9 +5,8 @@
 * Merge patients
 
 # Goto the openMRS Admin tab
-* Open "Admin" module
-* Goto Bed creation
-* Goto Admin home
+* Goto openMRS
+* Goto Administration
 
 # create a form
 * Open Form builder

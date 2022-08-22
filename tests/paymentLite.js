@@ -367,6 +367,7 @@ step("create Login Users for paymentlite", async function () {
 				});
 				assert.equal(createDoctorData.status, 201, "Doctor user not created.")
 			}
+			max_Retry = 0;
 		}
 		catch (e) {
 			max_Retry = max_Retry - 1
