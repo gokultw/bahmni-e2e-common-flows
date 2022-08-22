@@ -114,7 +114,9 @@ function addMinutes(date, minutes) {
 function getDateInLongFromat(date) {
     return `${date.toLocaleString('en-us', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`
 }
-
+function getddmmmyyyyFormattedDate(date) {
+    return `${date.getDate()}-${date.toLocaleString('en-us', { month: 'short' })}-${date.getFullYear()}`
+}
 module.exports = {
     today: today,
     yesterday: yesterday,
@@ -131,5 +133,6 @@ module.exports = {
     ddmmyyyyMMSS: ddmmyyyyHHMM,
     minusMinutes: minusMinutes,
     addMinutes: addMinutes,
-    getDateInLongFromat: getDateInLongFromat
+    getDateInLongFromat: getDateInLongFromat,
+    getddmmmyyyyFormattedDate: getddmmmyyyyFormattedDate
 }

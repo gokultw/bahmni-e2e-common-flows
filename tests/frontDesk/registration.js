@@ -185,8 +185,10 @@ step("Check login <location>", async function (location) {
 });
 
 step("Enter registration fees <arg0>", async function (arg0) {
-    await taikoHelper.repeatUntilFound(textBox(toRightOf("Registration Fees")))
-    await write("100", into(textBox(toRightOf("Registration Fees"))));
+    // await taikoHelper.repeatUntilFound(textBox(toRightOf("Registration Fees")))
+    if(await textBox(toRightOf("Registration Fees")).exists(500,1000)){
+        await write("100", into(textBox(toRightOf("Registration Fees"))));
+    }
 });
 
 step("Click back button", async function () {
