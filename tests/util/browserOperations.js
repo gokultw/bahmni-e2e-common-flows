@@ -52,11 +52,11 @@ beforeScenario(async (context) => {
 
 afterScenario(async (context) => {
     try {
-        await video.stopRecording();
         if (!context.currentScenario.isFailed) {
             fileExtension.removeDir(videoDir);
             console.log("Video deleted for scenario - " + context.currentScenario.name)
         } else {
+            await video.stopRecording();
             if (fileExtension.exists(videoDir)) {
                 console.log("Video successfully saved - " + videoDir+'/video.mp4')
             } else {

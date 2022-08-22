@@ -226,7 +226,7 @@ step("Click Search Index", async function () {
 
 step("Click Rebuild Search Index", async function () {
     await click(button("Rebuild Search Index"));
-    await waitFor(() => $("//*[@id='success']/p").isVisible(), 20000)
+    await waitFor(() => $("//*[@id='success']/p").isVisible(), 40000)
     assert.ok(await $("//*[@id='success']/p").isVisible());
 });
 
