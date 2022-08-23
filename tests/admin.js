@@ -199,22 +199,27 @@ step("Add Period Indicator Details", async function () {
     await write(users.randomName(10), into(textBox(toRightOf("Key"))))
     await click("Submit")
 });
-step("select profile type <profile>", async function (profile) {
+
+step("Upload <profile> data file", async function (profile) {
     await radioButton(above(profile)).select();
-});
-step("upload file for <profile> profile", async function (profile) {
-    try {
-        await attach(await csvConfig.generateUpdatedCSV(profile), fileField({ id: "inputFileUpload" }));
-    }
-    catch (e) {
-        console.error(e);
-    }
-    await waitFor(2000)
-    await click(button("Upload"))
-});
-step("verify upload status <profile> data", async function (profile) {
-    while (await text('IN_PROGRESS', near("Status"), toRightOf(profile.toLowerCase() + '.csv')).exists()) {
-        await click(button("Refresh"));
+    let max_Retry = 2
+    while (max_Retry > 0) {
+        try {
+            await attach(await csvConfig.generateUpdatedCSV(profile), fileField({ id: "inputFileUpload" }));
+            await waitFor(2000)
+            await click(button("Upload"))
+        }
+        catch (e) {
+            console.error(e);
+        }
+        while (await text('IN_PROGRESS', near("Status"), toRightOf(profile.toLowerCase() + '.csv')).exists()) {
+            await click(button("Refresh"));
+        }
+        if (await text('ERROR', near("Status"), toRightOf(profile.toLowerCase() + '.csv')).exists(0, 0)) {
+            max_Retry = max_Retry - 1
+        } else {
+            max_Retry = 0
+        }
     }
     assert.ok(await text('COMPLETED', near("Status"), toRightOf(profile.toLowerCase() + '.csv')).exists());
     alert(/^can not be represented as java.sql.Timestamp]9.*$/, async () => await accept())
