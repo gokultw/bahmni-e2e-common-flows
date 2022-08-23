@@ -1,5 +1,5 @@
 "use strict"
-const { fileField, click, attach, button, $, highlight, image, toLeftOf, below, text, waitFor, } = require('taiko');
+const { fileField, click, attach, button,evaluate, $, highlight, image, toLeftOf, below, text, waitFor, } = require('taiko');
 const path = require('path');
 const taikoHelper = require("../util/taikoHelper")
 var assert = require("assert")
@@ -24,5 +24,7 @@ step("Save the report", async function () {
 step("validate patient document in patient dashboard", async function() {
 	await click($("//a[@class='img-concept']"));
 	assert.ok(await $("//img[@class='slide']").exists());
-	await click(button({"class": "dialog-close-btn" }))
+	await waitFor(async () => (await $(".dialog-close-btn").exists()))
+	const closeButton = $(".dialog-close-btn");
+	await evaluate(closeButton, (el) => el.click());
 });
