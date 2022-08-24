@@ -45,7 +45,7 @@ step("Select Patient id", async function () {
 step("Select patient", async function() {
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
     await write(patientIdentifierValue);
-    await click(`(${patientIdentifierValue})`);
+    await click(text(`(${patientIdentifierValue})`));
 });
 
 step("Select service <service>", async function(service) {

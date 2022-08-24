@@ -129,7 +129,6 @@ step("Enter patient name for payment", async function () {
 
 	await write(`${firstName}`, into(textBox(above("Amount"), below("Customer"))))
 	await waitFor(async () => (await $(`//span[text()='${firstName} ${middleName} ${lastName}']`).isVisible()))
-	await scrollTo($(`//span[text()='${firstName} ${middleName} ${lastName}']`));
 	await click(`${firstName} ${middleName} ${lastName}`)
 });
 
