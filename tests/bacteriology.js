@@ -18,13 +18,13 @@ step("Enter type of sample <sampleType>", async function(sampleType) {
 });
 
 step("Enter Bacteriology results", async function() {
-    var observationFormValues = JSON.parse(fileExtension.parseContent(`./bahmni-e2e-common-flows/data/opConsultation/Bacteriology.json`))
+    var observationFormValues = JSON.parse(fileExtension.parseContent(`./bahmni-e2e-common-flows/data/consultation/observations/Bacteriology.json`))
 
     await taikoHelper.executeConfigurations(observationFormValues.ObservationFormDetails,observationFormValues.ObservationFormName,true)
 });
 
 step("verify bacteriology details", async function() {
-    var observationFormValues = JSON.parse(fileExtension.parseContent(`./bahmni-e2e-common-flows/data/opConsultation/Bacteriology.json`))
+    var observationFormValues = JSON.parse(fileExtension.parseContent(`./bahmni-e2e-common-flows/data/consultation/observations/Bacteriology.json`))
     await scrollTo("Bacteriology Results");
     await click(observationFormValues.SampleType)
     await taikoHelper.verifyConfigurations(observationFormValues.ObservationFormDetails,observationFormValues.ObservationFormName)

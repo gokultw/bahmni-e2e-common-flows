@@ -5,7 +5,7 @@ const taikoHelper = require("../util/taikoHelper")
 var assert = require("assert")
 
 step("Add a report <labReport> to <module>", async function (labReport, module) {
-	await attach(path.join("./data", `${labReport}.jpg`), fileField({ 'name': 'image-document-upload' }), { waitForEvents: ['DOMContentLoaded'] });
+	await attach(path.join("./bahmni-e2e-common-flows/data/reports", `${labReport}.jpg`), fileField({ 'name': 'image-document-upload' }), { waitForEvents: ['DOMContentLoaded'] });
 	await taikoHelper.repeatUntilNotFound($("#overlay"))
 	await taikoHelper.repeatUntilEnabled(button('SAVE'))
 });

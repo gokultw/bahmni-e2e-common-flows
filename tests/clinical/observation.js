@@ -29,7 +29,7 @@ step("Click Vitals", async function () {
 });
 
 step("Enter History and examination details <filePath>", async function (filePath) {
-    var historyAndExaminationFile = `./data/${filePath}.json`
+    var historyAndExaminationFile = `./bahmni-e2e-common-flows/data/${filePath}.json`
 
     var historyAndExaminationDetails = JSON.parse(fileExtension.parseContent(historyAndExaminationFile))
     gauge.dataStore.scenarioStore.put("historyAndExaminationDetails", historyAndExaminationDetails)
@@ -45,8 +45,7 @@ step("Enter History and examination details <filePath>", async function (filePat
     await write(historyAndExaminationDetails.History_Notes, into(textBox("History Notes")));
     await write(historyAndExaminationDetails.Examination_notes, into(textBox("Examination Notes")));
     await click(historyAndExaminationDetails.Smoking_History, toRightOf("Smoking History"));
-
-    await attach(path.join("./data/program/", 'programReport1.jpg'), fileField({ id: "file-browse-observation_9" }));
+    await attach(path.join('./bahmni-e2e-common-flows/data/consultation/obsevations/patientReport.jpg'), fileField({ id: "file-browse-observation_9" }));
 });
 
 step("Click patient name", async function () {

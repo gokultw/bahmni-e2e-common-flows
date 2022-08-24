@@ -24,7 +24,7 @@ const taikoHelper = require("../util/taikoHelper")
 var date = require("../util/date")
 
 step("Doctor prescribe tests <prescriptions>", async function (prescriptionFile) {
-    var prescriptionFile = `./data/${prescriptionFile}.json`;
+    var prescriptionFile = `./bahmni-e2e-common-flows/data/${prescriptionFile}.json`;
     var testPrescription = JSON.parse(fileExtension.parseContent(prescriptionFile))
     gauge.message(testPrescription)
     gauge.dataStore.scenarioStore.put("LabTest", testPrescription.test)
@@ -40,7 +40,7 @@ step("put medications <prescriptionNames>", async function (prescriptionNames) {
 })
 
 step("Doctor prescribes medicines <prescriptionNames>", async function (prescriptionNames) {
-    var prescriptionFile = `./data/${prescriptionNames}.json`;
+    var prescriptionFile = `./bahmni-e2e-common-flows/data/${prescriptionNames}.json`;
     gauge.dataStore.scenarioStore.put("prescriptions", prescriptionFile)
     var drugName = gauge.dataStore.scenarioStore.get("Drug Name")
 
@@ -118,7 +118,7 @@ step("Join teleconsultation", async function () {
 });
 
 step("Doctor notes the diagnosis and condition <filePath>", async function(filePath) {
-	var diagnosisFile = `./data/${filePath}.json`;
+	var diagnosisFile = `./bahmni-e2e-common-flows/data/${filePath}.json`;
     gauge.dataStore.scenarioStore.put("diagnosisFile", diagnosisFile)
     var medicalDiagnosis = JSON.parse(fileExtension.parseContent(diagnosisFile))
     gauge.message(medicalDiagnosis)

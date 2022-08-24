@@ -62,7 +62,7 @@ step("Select prescribed test in Pending Lab Orders table", async function () {
 step("Select Lab Report in side panel", async function () {
     var labReportFile = "labReport1.jpg";
     gauge.dataStore.scenarioStore.put("labReportFile", labReportFile)
-    await attach(path.join(__dirname, '../../data/' + labReportFile), fileField(above(text("Report Date"))), { waitForEvents: ['DOMContentLoaded'] });
+    await attach(path.join('./bahmni-e2e-common-flows/data/reports/' + labReportFile), fileField(above(text("Report Date"))), { waitForEvents: ['DOMContentLoaded'] });
 });
 
 step("Select today's date in Report Date Field", async function () {
