@@ -27,7 +27,6 @@ const { link } = require('fs');
 const path = require('path');
 
 step("start patient search", async function () {
-    await click(button({ "aria-label": "closes notification" }));
     await click(button({ "aria-label": "Search Patient" }))
 });
 
