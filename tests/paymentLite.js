@@ -228,7 +228,8 @@ step("Enter crater Password for <user>", async function (user) {
 	await write(users.getPasswordFromEncoding(process.env['paymentLite' + user]), into(textBox(below("Password"))));
 });
 
-step("Enter crater Email for <user>", async function (user) {
+	step("Enter crater Email for <user>", async function (user) {
+	await click(textBox(below("Email")))
 	await click(textBox(below("Email")))
 	await write(users.getUserNameFromEncoding(process.env['paymentLite' + user]), into(textBox(below("Email"))));
 });
@@ -371,9 +372,16 @@ step("create Login Users for paymentlite", async function () {
 		catch (e) {
 			max_Retry = max_Retry - 1
 			console.log(e.message);
-			console.log("Request to Payment Lite Failed, attempting again after 2 seconds, attempts left - "+max_Retry);
+			console.log("Request to Payment Lite Failed, attempting again after 2 seconds, attempts left - " + max_Retry);
 			await waitFor(1000);
 		}
 
+	}
+});
+
+step("Logout of Payment Lite if logged in", async function () {
+	if (await button(toRightOf(textBox({ "placeholder": "Search..." }))).exists()) {
+		await click(button(toRightOf(textBox({ "placeholder": "Search..." }))));
+		await click(text('Logout'));
 	}
 });
