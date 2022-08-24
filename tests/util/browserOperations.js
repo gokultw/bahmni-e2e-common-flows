@@ -16,7 +16,11 @@ const fileExtension = require("../util/fileExtension")
 const headless = process.env.headless_chrome.toLowerCase() === 'true';
 
 beforeSuite(async () => {
-    fileExtension.removeDir(process.env.video_file_path);
+    try {
+        fileExtension.removeDir(process.env.video_file_path);
+    } catch (e) {
+        console.log("Error Deleting directory - " + process.env.video_file_path + ". Error message - " + e.message)
+    }
 });
 
 afterSuite(async () => {
@@ -43,7 +47,14 @@ step("close tab", async function () {
 
 var videoDir
 beforeScenario(async (context) => {
-    await openBrowser({ headless: headless, args: ["--no-sandbox", "--disable-dev-shm-usage", '--use-fake-ui-for-media-stream', "--window-size=1440,900"] })
+    const browserOptions = { headless: headless, args: ["--no-sandbox", "--disable-dev-shm-usage", '--use-fake-ui-for-media-stream', "--window-size=1440,900"] }
+    try {
+        await openBrowser(browserOptions)
+    }
+    catch (e) {
+        await closeBrowser();
+        await openBrowser(browserOptions)
+    }
     await setConfig({ ignoreSSLErrors: true });
     let scenarioName = context.currentScenario.name;
     videoDir = process.env.video_file_path + '/' + scenarioName.replace(/ /g, "_")
@@ -58,7 +69,7 @@ afterScenario(async (context) => {
         } else {
             await video.stopRecording();
             if (fileExtension.exists(videoDir)) {
-                console.log("Video successfully saved - " + videoDir+'/video.mp4')
+                console.log("Video successfully saved - " + videoDir + '/video.mp4')
             } else {
                 console.log("Video not successfully saved for scenario - " + context.currentScenario.name)
             }
