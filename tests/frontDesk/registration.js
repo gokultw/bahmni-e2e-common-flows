@@ -61,11 +61,14 @@ step("Enter patient random middle name", async function () {
 });
 
 step("Enter patient random last name", async function () {
+    var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
+	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
     var lastName = gauge.dataStore.scenarioStore.get("patientLastName")
     if (lastName == null || lastName == "") {
         lastName = users.randomName(10)
         gauge.message(`lastName ${lastName}`)
         gauge.dataStore.scenarioStore.put("patientLastName", lastName)
+        gauge.dataStore.scenarioStore.put("patientFullName", `${firstName} ${middleName} ${lastName}`)
     }
 
     await write(lastName, into(textBox({ "placeholder": "Last Name" })));

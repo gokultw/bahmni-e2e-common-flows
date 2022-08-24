@@ -1,4 +1,4 @@
-const { goto, click, waitFor, button, write, into, textBox, below, scrollTo, above, toLeftOf, toRightOf, $, text, doubleClick, press, link, client } = require("taiko");
+const { goto, click, waitFor, button, write,evaluate, into, textBox, below, scrollTo, above, toLeftOf, toRightOf, $, text, doubleClick, press, link, client } = require("taiko");
 var fileExtension = require("./util/fileExtension")
 var assert = require("assert")
 var users = require("./util/users");
@@ -183,24 +183,20 @@ step("Goto the tab All", async function () {
 });
 
 step("Note the Date", async function () {
-	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
-	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
-
-	var invoiceDate = await text('/([0-9]+(/[0-9]+)+(/[0-9]+))/', toLeftOf(`${firstName} ${middleName}`), below("DATE")).text()
+	var fullName = gauge.dataStore.scenarioStore.get("patientFullName")
+	var invoiceDate = await evaluate($("//DIV[@title='" + fullName + "']/../preceding::TD[2]"), (element) => element.innerText)
 	gauge.dataStore.scenarioStore.put("invoiceDate", invoiceDate)
 });
-step("Note the Invoice Number", async function () {
-	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
-	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
 
-	var invoiceNumber = await link(toLeftOf(`${firstName} ${middleName}`), below("NUMBER"), toRightOf("DATE")).text()
+step("Note the Invoice Number", async function () {
+	var fullName = gauge.dataStore.scenarioStore.get("patientFullName")
+	var invoiceNumber = await evaluate($("//DIV[@title='" + fullName + "']/../preceding::TD/A"), (element) => element.innerText)
 	gauge.dataStore.scenarioStore.put("invoiceNumber", invoiceNumber)
 });
-step("Note the Amount", async function () {
-	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
-	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
 
-	var invoiceAmount = await text('/₹ [0-9]*\.[0-9]+/', toRightOf(`${firstName} ${middleName}`), below("TOTAL")).text()
+step("Note the Amount", async function () {
+	var fullName = gauge.dataStore.scenarioStore.get("patientFullName")
+	var invoiceAmount = await evaluate($("//DIV[@title='" + fullName + "']/../following::TD[3]/SPAN"), (element) => element.innerText)
 	gauge.dataStore.scenarioStore.put("invoiceAmount", invoiceAmount)
 });
 
@@ -228,7 +224,7 @@ step("Enter crater Password for <user>", async function (user) {
 	await write(users.getPasswordFromEncoding(process.env['paymentLite' + user]), into(textBox(below("Password"))));
 });
 
-	step("Enter crater Email for <user>", async function (user) {
+step("Enter crater Email for <user>", async function (user) {
 	await click(textBox(below("Email")))
 	await click(textBox(below("Email")))
 	await write(users.getUserNameFromEncoding(process.env['paymentLite' + user]), into(textBox(below("Email"))));
