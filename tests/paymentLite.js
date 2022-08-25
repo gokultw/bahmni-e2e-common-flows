@@ -1,4 +1,4 @@
-const { goto, click, waitFor, button, write,evaluate, into, textBox, below, scrollTo, above, toLeftOf, toRightOf, $, text, doubleClick, press, link, client } = require("taiko");
+const { goto, click, waitFor, button, write, evaluate, into, textBox, below, scrollTo, above, toLeftOf, toRightOf, $, text, doubleClick, press, link, client } = require("taiko");
 var fileExtension = require("./util/fileExtension")
 var assert = require("assert")
 var users = require("./util/users");
@@ -47,31 +47,29 @@ step("Click Items", async function () {
 });
 
 step("Add doctor with fees <fees>", async function (fees) {
-	await click(button("Add Item"));
-	await waitFor("New Item")
-
 	var doctorFirstName = gauge.dataStore.scenarioStore.get("doctorFirstName");
 	var doctorMiddleName = gauge.dataStore.scenarioStore.get("doctorMiddleName");
 	var doctorLastName = gauge.dataStore.scenarioStore.get("doctorLastName");
-
-	await write(`${doctorFirstName} ${doctorMiddleName} ${doctorLastName}`, into(textBox(below("Name"))))
-	await write(fees, into(textBox(below("Price"))))
-
-	await click("Save Item")
+	if (! await link(`${doctorFirstName} ${doctorMiddleName} ${doctorLastName}`).exists(500, 1000)) {
+		await click(button("Add Item"));
+		await waitFor("New Item")
+		await write(`${doctorFirstName} ${doctorMiddleName} ${doctorLastName}`, into(textBox(below("Name"))))
+		await write(fees, into(textBox(below("Price"))))
+		await click("Save Item")
+	}
 });
 
 step("Add a drug with price <price>", async function (price) {
 	var prescriptionFile = gauge.dataStore.scenarioStore.get("prescriptions");
 	var medicalPrescriptions = JSON.parse(fileExtension.parseContent(prescriptionFile))
 	var drugName = medicalPrescriptions.drug_name;
-	await click(button("Add Item"));
-
-	await waitFor("New Item")
-
-	await write(drugName, into(textBox(below("Name"))))
-	await write(price, into(textBox(below("Price"))))
-
-	await click("Save Item")
+	if (! await link(drugName).exists(500, 1000)) {
+		await click(button("Add Item"));
+		await waitFor("New Item")
+		await write(drugName, into(textBox(below("Name"))))
+		await write(price, into(textBox(below("Price"))))
+		await click("Save Item")
+	}
 });
 
 step("Click Invoices", async function () {
@@ -85,6 +83,7 @@ step("Choose the patient", async function () {
 	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
 
 	await scrollTo(firstName)
+	await waitFor(200)
 	await click(firstName)
 });
 
@@ -93,6 +92,7 @@ step("Choose the doctor in paymentlite", async function () {
 	var doctorFirstName = gauge.dataStore.scenarioStore.get("doctorFirstName");
 	await waitFor(async () => (await $(`//span[starts-with(text(),'${doctorFirstName}')]`).isVisible()))
 	await scrollTo($(`//span[starts-with(text(),'${doctorFirstName}')]`));
+	await waitFor(200)
 	await click(doctorFirstName)
 });
 
@@ -108,6 +108,7 @@ step("Choose the prescibed medicines in paymentlite", async function () {
 	var drugName = medicalPrescriptions.drug_name;
 	await waitFor(async () => (await $(`//span[text()='${drugName}']`).isVisible()))
 	await scrollTo($(`//span[text()='${drugName}']`));
+	await waitFor(200)
 	await click(drugName)
 });
 
@@ -129,6 +130,7 @@ step("Enter patient name for payment", async function () {
 
 	await write(`${firstName}`, into(textBox(above("Amount"), below("Customer"))))
 	await waitFor(async () => (await $(`//span[text()='${firstName} ${middleName} ${lastName}']`).isVisible()))
+	await waitFor(200)
 	await click(`${firstName} ${middleName} ${lastName}`)
 });
 
