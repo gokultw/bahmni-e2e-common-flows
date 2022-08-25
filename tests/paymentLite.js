@@ -90,10 +90,10 @@ step("Choose the patient", async function () {
 step("Choose the doctor in paymentlite", async function () {
 	await click(textBox(above("Add New Item"), below("Items")))
 	var doctorFirstName = gauge.dataStore.scenarioStore.get("doctorFirstName");
+	await write(doctorFirstName);
 	await waitFor(async () => (await $(`//span[starts-with(text(),'${doctorFirstName}')]`).isVisible()))
-	await scrollTo($(`//span[starts-with(text(),'${doctorFirstName}')]`));
 	await waitFor(200)
-	await click(doctorFirstName)
+	await evaluate($(`//span[starts-with(text(),'${doctorFirstName}')]`), (el) => el.click())
 });
 
 
@@ -102,14 +102,15 @@ step("Add a new Item", async function () {
 });
 
 step("Choose the prescibed medicines in paymentlite", async function () {
+	console.log("selecting drug")
 	await click(textBox(toLeftOf("1", toLeftOf("$ 0.00"))));
 	var prescriptionFile = gauge.dataStore.scenarioStore.get("prescriptions");
 	var medicalPrescriptions = JSON.parse(fileExtension.parseContent(prescriptionFile))
 	var drugName = medicalPrescriptions.drug_name;
+	await write(drugName);
 	await waitFor(async () => (await $(`//span[text()='${drugName}']`).isVisible()))
-	await scrollTo($(`//span[text()='${drugName}']`));
 	await waitFor(200)
-	await click(drugName)
+	await click($(`//span[text()='${drugName}']`))
 });
 
 step("Save Invoice", async function () {
