@@ -188,8 +188,7 @@ step("Check login <location>", async function (location) {
 });
 
 step("Enter registration fees <arg0>", async function (arg0) {
-    await waitFor(async () => (await textBox(toRightOf("Registration Fees")).exists()))
-    if(await textBox(toRightOf("Registration Fees")).exists(500,1000)){
+    if(await $("//*[text()='REGISTRATION FEES']/following::input[@type='number']").exists(500,2000)){
         await write("100", into(textBox(toRightOf("Registration Fees"))));
     }
 });

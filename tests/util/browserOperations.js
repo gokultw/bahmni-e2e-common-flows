@@ -58,7 +58,7 @@ beforeScenario(async (context) => {
     await setConfig({ ignoreSSLErrors: true });
     let scenarioName = context.currentScenario.name;
     videoDir = process.env.video_file_path + '/' + scenarioName.replace(/ /g, "_")
-    await video.startRecording(videoDir + '/video.mp4');
+    await video.startRecording(videoDir + '/video.mp4',5);
 });
 
 afterScenario(async (context) => {
