@@ -1,4 +1,4 @@
-const { goto, below, write, textBox, into, click, toLeftOf, checkBox, reload, text, waitFor, highlight, screenshot } = require('taiko');
+const { goto, $, below, write, textBox, into, click, toLeftOf, checkBox, reload, text, waitFor, highlight, screenshot } = require('taiko');
 var assert = require("assert")
 step("enter odoo username", async function () {
     await write(process.env.odooUsername, into(textBox(below("Email"))));
@@ -21,18 +21,20 @@ step("View Quotations below direct sales", async function () {
 });
 
 step("select Customer", async function () {
+    let fullName = gauge.dataStore.scenarioStore.get("patientFullName")
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
+    let oddoCustomerName = `${fullName} [${patientIdentifierValue}]`;
     var maxRetry = 5
     while (maxRetry > 0) {
         await waitFor(1000);
-        if (await text(patientIdentifierValue).exists(500, 1000)) {
+        if (await $("//TD[@data-field='partner_id' and text()='" + oddoCustomerName + "']").exists(500, 5000)) {
             maxRetry = 0
-            await click(patientIdentifierValue);
+            await click(oddoCustomerName);
         }
         else {
             maxRetry = maxRetry - 1;
-            assert.ok(maxRetry > 0, "Quotation not found in Odoo for patient - " + patientIdentifierValue)
-            console.log("Waiting for 5 seconds and reload the Quotations page to wait for Patient ID - " + patientIdentifierValue + ". Remaining attempts " + maxRetry)
+            assert.ok(maxRetry > 0, "Quotation not found in Odoo for patient - " + oddoCustomerName)
+            console.log("Waiting for 5 seconds and reload the Quotations page to wait for Patient - " + oddoCustomerName + ". Remaining attempts " + maxRetry)
             await waitFor(4000);
             await reload({ waitForNavigation: true });
         }
