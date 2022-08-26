@@ -98,4 +98,8 @@ step("Choose a random uploaded patient identifier", async function () {
     // await taikoHelper.selectEntriesTillIterationEnds(recordSeq);
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier" + (recordSeq));
     gauge.dataStore.scenarioStore.put("patientIdentifier", patientIdentifierValue);
+    gauge.dataStore.scenarioStore.put("patientFirstName",gauge.dataStore.scenarioStore.get("patientFirstName" + (recordSeq)));
+    gauge.dataStore.scenarioStore.put("patientMiddleName",gauge.dataStore.scenarioStore.get("patientMiddleName" + (recordSeq)));
+    gauge.dataStore.scenarioStore.put("patientLastName",gauge.dataStore.scenarioStore.get("patientLastName" + (recordSeq)));
+    gauge.dataStore.scenarioStore.put("patientFullName",gauge.dataStore.scenarioStore.get("patientFullName" + (recordSeq)));
 });
