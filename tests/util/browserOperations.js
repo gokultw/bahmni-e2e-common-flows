@@ -45,7 +45,6 @@ step("close tab", async function () {
     await closeTab()
 });
 
-var videoDir
 beforeScenario(async (context) => {
     const browserOptions = { headless: headless, args: ["--no-sandbox", "--disable-dev-shm-usage", '--use-fake-ui-for-media-stream', "--window-size=1440,900"] }
     try {
@@ -57,11 +56,13 @@ beforeScenario(async (context) => {
     }
     await setConfig({ ignoreSSLErrors: true });
     let scenarioName = context.currentScenario.name;
-    videoDir = process.env.video_file_path + '/' + scenarioName.replace(/ /g, "_")
+    let videoDir = process.env.video_file_path + '/' + scenarioName.replace(/ /g, "_")
+    gauge.dataStore.scenarioStore.put("videoDir", videoDir)
     await video.startRecording(videoDir + '/video.mp4',5);
 });
 
 afterScenario(async (context) => {
+    let videoDir = gauge.dataStore.scenarioStore.get("videoDir")
     try {
         if (!context.currentScenario.isFailed) {
             fileExtension.removeDir(videoDir);

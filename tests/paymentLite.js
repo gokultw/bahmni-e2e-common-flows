@@ -110,7 +110,7 @@ step("Choose the prescibed medicines in paymentlite", async function () {
 	await write(drugName);
 	await waitFor(async () => (await $(`//span[text()='${drugName}']`).isVisible()))
 	await waitFor(200)
-	await click($(`//span[text()='${drugName}']`))
+	await evaluate($(`//span[text()='${drugName}']`), (el) => el.click())
 });
 
 step("Save Invoice", async function () {
@@ -228,9 +228,9 @@ step("Enter crater Password for <user>", async function (user) {
 });
 
 step("Enter crater Email for <user>", async function (user) {
-	await click(textBox(below("Email")))
-	await click(textBox(below("Email")))
-	await write(users.getUserNameFromEncoding(process.env['paymentLite' + user]), into(textBox(below("Email"))));
+	await waitFor(async () => (await $("//input[@name='email']")))
+	await click($("//input[@name='email']"));
+    await write(users.getUserNameFromEncoding(process.env['paymentLite' + user]));
 });
 
 step("Click Logout", async function () {
