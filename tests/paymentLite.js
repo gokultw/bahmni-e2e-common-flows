@@ -102,7 +102,6 @@ step("Add a new Item", async function () {
 });
 
 step("Choose the prescibed medicines in paymentlite", async function () {
-	console.log("selecting drug")
 	await click(textBox(toLeftOf("1", toLeftOf("$ 0.00"))));
 	var prescriptionFile = gauge.dataStore.scenarioStore.get("prescriptions");
 	var medicalPrescriptions = JSON.parse(fileExtension.parseContent(prescriptionFile))
@@ -230,7 +229,7 @@ step("Enter crater Password for <user>", async function (user) {
 step("Enter crater Email for <user>", async function (user) {
 	await waitFor(async () => (await $("//input[@name='email']")))
 	await click($("//input[@name='email']"));
-    await write(users.getUserNameFromEncoding(process.env['paymentLite' + user]));
+	await write(users.getUserNameFromEncoding(process.env['paymentLite' + user]));
 });
 
 step("Click Logout", async function () {
@@ -379,8 +378,11 @@ step("create Login Users for paymentlite", async function () {
 });
 
 step("Logout of Payment Lite if logged in", async function () {
-	if (await button(toRightOf(textBox({ "placeholder": "Search..." }))).exists()) {
+	if (await $("//DIV[@placeholder='Search...']/preceding::LI/following-sibling::LI//BUTTON").exists()) {
+		gauge.message("User is logged in... Logging out")
 		await click(button(toRightOf(textBox({ "placeholder": "Search..." }))));
 		await click(text('Logout'));
+	} else {
+		gauge.message("User is not logged in...")
 	}
 });
