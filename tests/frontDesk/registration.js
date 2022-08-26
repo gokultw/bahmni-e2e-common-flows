@@ -62,7 +62,7 @@ step("Enter patient random middle name", async function () {
 
 step("Enter patient random last name", async function () {
     var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
-	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
+    var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
     var lastName = gauge.dataStore.scenarioStore.get("patientLastName")
     if (lastName == null || lastName == "") {
         lastName = users.randomName(10)
@@ -111,6 +111,7 @@ step("Click create new patient", async function () {
 });
 
 step("Save the patient data", async function () {
+    await taikoHelper.repeatUntilNotFound($("#overlay"))
     await click("Save", { navigationTimeout: process.env.actionTimeout });
     await taikoHelper.repeatUntilNotFound($("#overlay"))
     await waitFor(async () => !(await text("Saved", within('.message-text')).exists()));
@@ -188,7 +189,7 @@ step("Check login <location>", async function (location) {
 });
 
 step("Enter registration fees <arg0>", async function (arg0) {
-    if(await $("//*[text()='REGISTRATION FEES']/following::input[@type='number']").exists(500,2000)){
+    if (await $("//*[text()='REGISTRATION FEES']/following::input[@type='number']").exists(500, 2000)) {
         await write("100", into(textBox(toRightOf("Registration Fees"))));
     }
 });
