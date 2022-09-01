@@ -112,7 +112,7 @@ function addMinutes(date, minutes) {
 }
 
 function getDateInLongFromat(date) {
-    return `${date.toLocaleString('en-us', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`
+    return `${date.toLocaleString('en-us', { month: 'long' })} ${("0" + date.getDate()).slice(-2)}, ${date.getFullYear()}`
 }
 function getddmmmyyyyFormattedDate(date) {
     return `${date.getDate()}-${date.toLocaleString('en-us', { month: 'short' })}-${date.getFullYear()}`
