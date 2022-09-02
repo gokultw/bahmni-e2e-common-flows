@@ -117,13 +117,13 @@ step("Goto appointments's date", async function () {
 
 step("Goto Next week", async function () {
     await click("Week");
-    var month = date.getShortNameOfMonth(new Date())
+    var month = date.getShortNameOfMonth(date.today())
     await click(button(), toRightOf(month));
 });
 
 step("Goto day view of the calendar", async function () {
     await click("Day");
-    var month = date.getShortNameOfMonth(new Date())
+    var month = date.getShortNameOfMonth(date.today())
     await click(button(), toRightOf(month));
 });
 

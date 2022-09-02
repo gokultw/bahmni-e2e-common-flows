@@ -100,7 +100,7 @@ function nextYear() {
 
 function getShortNameOfMonth(date) {
     const month = date.toLocaleString('default', { month: 'short' });
-    return month;
+    return month.slice(0,3);
 }
 
 function minusMinutes(date, minutes) {
