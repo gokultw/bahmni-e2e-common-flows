@@ -71,7 +71,7 @@ step("Doctor prescribes medicines <prescriptionNames>", async function (prescrip
 });
 
 step("Doctor captures consultation notes <notes>", async function (notes) {
-    gauge.dataStore.scenarioStore.put("consultationNotes",notes)
+    gauge.dataStore.scenarioStore.put("consultationNotes", notes)
     await click("Consultation", { force: true, waitForNavigation: true, waitForStart: 2000 });
     await waitFor(textBox({ placeholder: "Enter Notes here" }))
     await write(notes, into(textBox({ "placeholder": "Enter Notes here" })), { force: true })
@@ -99,7 +99,7 @@ step("Doctor advises discharging the patient", async function () {
 });
 
 step("Open <tabName> Tab", async function (tabName) {
-    await click(tabName, { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
+    await click(link(tabName), { waitForNavigation: true, navigationTimeout: process.env.actionTimeout, force: true });
     await taikoHelper.repeatUntilNotFound($("#overlay"))
 });
 
@@ -117,8 +117,8 @@ step("Join teleconsultation", async function () {
     await click(($('[ng-click="closeTeleConsultation()"]')));
 });
 
-step("Doctor notes the diagnosis and condition <filePath>", async function(filePath) {
-	var diagnosisFile = `./bahmni-e2e-common-flows/data/${filePath}.json`;
+step("Doctor notes the diagnosis and condition <filePath>", async function (filePath) {
+    var diagnosisFile = `./bahmni-e2e-common-flows/data/${filePath}.json`;
     gauge.dataStore.scenarioStore.put("diagnosisFile", diagnosisFile)
     var medicalDiagnosis = JSON.parse(fileExtension.parseContent(diagnosisFile))
     gauge.message(medicalDiagnosis)
