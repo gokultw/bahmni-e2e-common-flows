@@ -3,22 +3,26 @@
     "ObservationFormDetails": [
         {
             "type": "TextBox",
-            "label": "Pulse (/min)",
+            "label": "Pulse (beats/min)",
+            "short_name": "HR",
             "value": "70"
         },
         {
             "type": "TextBox",
-            "label": "SPO2 (%)",
+            "label": "Arterial blood oxygen saturation (pulse oximeter) (%)",
+            "short_name": "SpO2",
             "value": "99"
         },
         {
             "type": "TextBox",
-            "label": "RR (/min)",
+            "label": "Respiratory rate",
+            "short_name": "Respiratory rate",
             "value": "99"
         },
         {
             "type": "TextBox",
             "label": "Temperature (F)",
+            "short_name": "Temperature",
             "value": "99"
         },
         {
@@ -27,18 +31,21 @@
             "value": [
                 {
                     "type": "TextBox",
-                    "label": "Diastolic (mm Hg)",
+                    "label": "Diastolic blood pressure (mmHg)",
+                    "short_name": "DBP",
                     "value": "110"
                 },
                 {
                     "type": "TextBox",
-                    "label": "Systolic (mm Hg)",
+                    "label": "Systolic blood pressure (mmHg)",
+                    "short_name": "Sbp",
                     "value": "110"
                 },
                 {
                     "type": "Button",
-                    "label": "Posture",
-                    "value": "Sitting"
+                    "label": "Body position",
+                    "short_name": "Body position",
+                    "value": "standing"
                 }
             ]
         }

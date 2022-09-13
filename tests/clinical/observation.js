@@ -15,6 +15,10 @@ const {
     scrollTo,
     reload,
     highlight,
+    below,
+    button,
+    near,
+    to
 } = require('taiko');
 const taikoHelper = require("../util/taikoHelper")
 const fileExtension = require("../util/fileExtension")
@@ -36,16 +40,13 @@ step("Enter History and examination details <filePath>", async function (filePat
     for (var chiefComplaint of historyAndExaminationDetails.Chief_Complaints) {
         await scrollTo("Chief Complaint")
         await write(chiefComplaint.Chief_Complaint, into(textBox(toRightOf("Chief Complaint"))));
-        await scrollTo("Chief Complaint")
-        await click('Accept', { force: true });
-        await write(chiefComplaint.for, into(textBox(toRightOf("for"))));
-        await dropDown(toRightOf("for")).select(chiefComplaint.for_frequency);
+        await click(chiefComplaint.Chief_Complaint, below(textBox(toRightOf("Chief Complaint"))));
+        await write(chiefComplaint.Sign_symptom_duration, into($("//*[text()='Sign/symptom duration']//ancestor::div[@class='form-field-content-wrap']//input")));
+        await click(button(chiefComplaint.Units), toRightOf("Units"));
     }
-    await write(historyAndExaminationDetails.Chief_complaint_notes, into(textBox("Chief Complaint Notes")));
-    await write(historyAndExaminationDetails.History_Notes, into(textBox("History Notes")));
-    await write(historyAndExaminationDetails.Examination_notes, into(textBox("Examination Notes")));
-    await click(historyAndExaminationDetails.Smoking_History, toRightOf("Smoking History"));
-    await attach(path.join('./bahmni-e2e-common-flows/data/consultation/obsevations/patientReport.jpg'), fileField({ id: "file-browse-observation_9" }));
+    await write(historyAndExaminationDetails.History_of_present_illness, into($("//*[text()='History of present illness']//ancestor::div[@class='form-field-content-wrap']//textarea")));
+    await click(historyAndExaminationDetails.Smoking_status, toRightOf("Smoking status"));
+    await attach(path.join('./bahmni-e2e-common-flows/data/consultation/observations/patientReport.jpg'), to($("//*[@class='image-upload']/input")), { force: true });
 });
 
 step("Click patient name", async function () {
