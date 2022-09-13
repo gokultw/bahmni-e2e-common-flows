@@ -81,3 +81,7 @@
 # Enter History and Examination details <historyExamination>
 * Enter History and examination details <historyExamination>
 * Save data
+
+# Verify diagnosis and condition in patient clinical dashboard
+* Verify diagnosis in patient clinical dashboard
+* Verify condition in patient clinical dashboard

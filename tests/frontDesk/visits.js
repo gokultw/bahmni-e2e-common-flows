@@ -15,7 +15,8 @@ const {
     waitFor,
     scrollTo,
     highlight,
-    link
+    link,
+    below
 } = require('taiko');
 const taikoHelper = require("../util/taikoHelper")
 var fileExtension = require("../util/fileExtension")
@@ -81,9 +82,9 @@ step("Verify medical prescription in patient clinical dashboard", async function
     await taikoHelper.repeatUntilNotFound($(".dashboard-section-loader"))
     var prescriptionFile = gauge.dataStore.scenarioStore.get("prescriptions")
     var medicalPrescriptions = JSON.parse(fileExtension.parseContent(prescriptionFile))
-    assert.ok(await (await text(medicalPrescriptions.drug_name)).exists())
-    assert.ok(await (await text(`${medicalPrescriptions.dose} ${medicalPrescriptions.units}, ${medicalPrescriptions.frequency}`)).exists())
-    assert.ok(await (await text(`${medicalPrescriptions.duration} Day(s)`)).exists())
+    assert.ok(await text(medicalPrescriptions.drug_name, within($("#Treatments"))).exists())
+    assert.ok(await text(`${medicalPrescriptions.dose} ${medicalPrescriptions.units}, ${medicalPrescriptions.frequency}`, within($("#Treatments"))).exists())
+    assert.ok(await text(`${medicalPrescriptions.duration} Days`, within($("#Treatments"))).exists())
 });
 
 step("Verify vitals", async function () {
@@ -91,28 +92,38 @@ step("Verify vitals", async function () {
     for (var vitalFormValue of vitalFormValues.ObservationFormDetails) {
         if (vitalFormValue.type == 'Group') {
             for (var vitalFormGroup of vitalFormValue.value) {
-                assert.ok(await text(vitalFormGroup.value, within($("#Vitals")), toRightOf(vitalFormGroup.label.split(" ")[0])).exists())
+                assert.ok(await text(vitalFormGroup.value, within($("#Vitals")), toRightOf(vitalFormGroup.short_name)).exists())
             }
         }
         else {
-            assert.ok(await text(vitalFormValue.value, within($("#Vitals")), toRightOf(vitalFormValue.label.split(" ")[0])).exists())
+            assert.ok(await text(vitalFormValue.value, within($("#Vitals")), toRightOf(vitalFormValue.short_name)).exists())
         }
     };
 });
 
-step("Verify diagnosis and condition in patient clinical dashboard", async function () {
+step("Verify diagnosis in patient clinical dashboard", async function () {
     var diagnosisFile = gauge.dataStore.scenarioStore.get("diagnosisFile")
     var medicalDiagnosis = JSON.parse(fileExtension.parseContent(diagnosisFile))
-    assert.ok(await text(medicalDiagnosis.diagnosis.diagnosisName, toLeftOf(medicalDiagnosis.diagnosis.certainty, toLeftOf(medicalDiagnosis.diagnosis.order)), within($("//section[@id='Diagnosis']"))).exists())
+    assert.ok(await text(medicalDiagnosis.diagnosis.diagnosisName, toLeftOf(medicalDiagnosis.diagnosis.certainty, toRightOf(medicalDiagnosis.diagnosis.order)), within($("#Diagnosis"))).exists())
+});
+
+step("Verify condition in patient clinical dashboard", async function () {
+    var diagnosisFile = gauge.dataStore.scenarioStore.get("diagnosisFile")
+    var medicalConditions = JSON.parse(fileExtension.parseContent(diagnosisFile)).condition
+    for (var condition of medicalConditions) {
+        if (condition.status != "Inactive") {
+            assert.ok(await text(condition.conditionName, below(condition.status), within($("#Conditions"))).exists())
+        }
+    }
 });
 
 step("Verify history & examination in patient clinical dashboard", async function () {
     var historyAndExaminationDetails = gauge.dataStore.scenarioStore.get("historyAndExaminationDetails")
-    assert.ok(await text(`${historyAndExaminationDetails.Chief_Complaints[0].Chief_Complaint} since ${historyAndExaminationDetails.Chief_Complaints[0].for} ${historyAndExaminationDetails.Chief_Complaints[0].for_frequency}`, toRightOf("Chief Complaint"), within($("#History-and-Examinations"))).exists())
-    assert.ok(await text(`${historyAndExaminationDetails.Chief_complaint_notes}`, within($("#History-and-Examinations")), toRightOf("Chief Complaint Notes")).exists())
-    assert.ok(await text(`${historyAndExaminationDetails.History_Notes}`, within($("#History-and-Examinations")), toRightOf("History Notes")).exists())
-    assert.ok(await text(`${historyAndExaminationDetails.Examination_notes}`, within($("#History-and-Examinations")), toRightOf("Examination Notes")).exists())
-    assert.ok(await text(`${historyAndExaminationDetails.Smoking_History}`, within($("#History-and-Examinations")), toRightOf("Smoking History")).exists())
+    assert.ok(await text(`${historyAndExaminationDetails.Chief_Complaints[0].Chief_Complaint}`, toRightOf("Chief Complaint"), within($("#History-and-Examinations"))).exists())
+    assert.ok(await text(`${historyAndExaminationDetails.Chief_Complaints[0].Sign_symptom_duration}`, within($("#History-and-Examinations")), toRightOf("Sign/symptom duration")).exists())
+    assert.ok(await text(`${historyAndExaminationDetails.Chief_Complaints[0].Units}`, toRightOf("Units"), within($("#History-and-Examinations"))).exists())
+    assert.ok(await text(`${historyAndExaminationDetails.History_of_present_illness}`, within($("#History-and-Examinations")), toRightOf("HPI")).exists())
+    assert.ok(await text(`${historyAndExaminationDetails.Smoking_status}`, within($("#History-and-Examinations")), toRightOf("Smoking status")).exists())
 });
 
 step("Verify consultation notes in patient clinical dashboard", async function () {
@@ -122,6 +133,6 @@ step("Verify consultation notes in patient clinical dashboard", async function (
 });
 
 step("Validate the lab tests are available in patient clinical dashboard", async function () {
-    var labTest =gauge.dataStore.scenarioStore.get("LabTest")
-    assert.ok(await text(labTest,within($("//section[@id='Lab-Results']"))).exists())
+    var labTest = gauge.dataStore.scenarioStore.get("LabTest")
+    assert.ok(await text(labTest, within($("#Lab-Results"))).exists())
 });
