@@ -265,19 +265,25 @@ step("Download the report", async function () {
 });
 
 step("Validate the downloaded report", async function () {
-	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
-	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
-	var lastName = gauge.dataStore.scenarioStore.get("patientLastName")
-	var invoiceNumber = gauge.dataStore.scenarioStore.get("invoiceNumber")
-	var invoiceAmount = gauge.dataStore.scenarioStore.get("invoiceAmount").replace(" ", "")
-	var invoiceDate = gauge.dataStore.scenarioStore.get("invoiceDate")
-	let dataBuffer = fs.readFileSync(gauge.dataStore.scenarioStore.get("pdfReportPath"));
-	gauge.message(`Invoice - ${invoiceNumber} Amount - ${invoiceAmount} Date - ${invoiceDate}`)
-	pdf(dataBuffer).then(function (data) {
-		var pdfText = data.text
-		assert.ok(pdfText.includes("Sales Report: By Customer"));
-		assert.ok(pdfText.includes(`${firstName} ${middleName} ${lastName}\n${invoiceDate} (${invoiceNumber})${invoiceAmount}\n${invoiceAmount}`));
-	});
+	try {
+		var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
+		var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
+		var lastName = gauge.dataStore.scenarioStore.get("patientLastName")
+		var invoiceNumber = gauge.dataStore.scenarioStore.get("invoiceNumber")
+		var invoiceAmount = gauge.dataStore.scenarioStore.get("invoiceAmount").replace(" ", "")
+		var invoiceDate = gauge.dataStore.scenarioStore.get("invoiceDate")
+		let dataBuffer = fs.readFileSync(gauge.dataStore.scenarioStore.get("pdfReportPath"));
+		gauge.message(`Invoice - ${invoiceNumber} Amount - ${invoiceAmount} Date - ${invoiceDate}`)
+		pdf(dataBuffer).then(function (data) {
+			var pdfText = data.text
+			assert.ok(pdfText.includes("Sales Report: By Customer"));
+			assert.ok(pdfText.includes(`${firstName} ${middleName} ${lastName}\n${invoiceDate} (${invoiceNumber})${invoiceAmount}\n${invoiceAmount}`));
+		});
+	}
+	catch (e) {
+		console.log(e.message);
+		gauge.message(e.message)
+	}
 });
 
 step("create Login Users for paymentlite", async function () {
