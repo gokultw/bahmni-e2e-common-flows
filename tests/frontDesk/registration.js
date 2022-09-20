@@ -234,12 +234,6 @@ step("Click on home page", async function () {
     await taikoHelper.repeatUntilNotFound($("#overlay"))
 });
 
-step("Create new record", async function () {
-    await waitFor(button("Create New Record"))
-    await scrollTo(button("Create New Record"))
-    await click(button("Create New Record"))
-});
-
 step("Open newly created patient details by search", async function () {
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
 
@@ -268,11 +262,6 @@ step("Enter village <village>", async function (village) {
 step("Check if patient <firstName> <middleName> <lastName> with mobile <mobileNumber> exists", async function (firstName, middleName, lastName, arg2) {
     await write(`${firstName} ${middleName} ${lastName}`, into(textBox({ "placeholder": "Enter Name" })));
     await press("Enter");
-});
-
-step("Should not allow to associate HeatlhID if already linked1", async function () {
-    await click(text("Verify", within($(".verify-health-id"))));
-    await text("Matching record with Health ID found").exists();
 });
 
 step("Should fetch record with similar details", async function () {
