@@ -30,6 +30,7 @@ step("Click Vitals", async function () {
     await highlight("Vitals")
     await click("Vitals", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout, force: true })
     await taikoHelper.repeatUntilNotFound($("#overlay"))
+    await waitFor(async () => (await text('Pulse (beats/min)').exists()))
 });
 
 step("Enter History and examination details <filePath>", async function (filePath) {
