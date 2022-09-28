@@ -27,6 +27,7 @@ const {
 } = require('taiko');
 var date = require("../util/date");
 const taikoHelper = require("../util/taikoHelper")
+var assert = require("assert");
 
 step("View all appointments", async function () {
     await click(process.env.appointmentList);
@@ -129,12 +130,12 @@ step("Goto day view of the calendar", async function () {
 
 
 step("Click Close", async function () {
-    //    await click(button({"data-testid":"save-close-button"}),{waitForNavigation:true,navigationTimeout:process.env.actionTimeout});
     await click(button("Close", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout }))
+    await taikoHelper.repeatUntilNotFound($("#overlay"))
 });
 
 step("Goto List view", async function () {
-    await click("List view");
+    await click(link("List view"));
 });
 
 step("select the walk in appointment option", async function () {
@@ -198,4 +199,25 @@ step("Manage locations", async function () {
 
 step("Goto Today", async function () {
     await click("Today")
+});
+
+step("Select List View in Appointments", async function () {
+    await click("List view")
+});
+
+step("Get Apointmnet Date and Time", async function () {
+    var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
+    let appointmentDate = await $("//A[text()='" + patientIdentifierValue + "']/../../TD[3]").text();
+    let appointmentStartTime = await $("//A[text()='" + patientIdentifierValue + "']/../../TD[4]").text();
+    let appointmentEndTime = await $("//A[text()='" + patientIdentifierValue + "']/../../TD[5]").text();
+    gauge.dataStore.scenarioStore.put("appointmentDate", appointmentDate)
+    gauge.dataStore.scenarioStore.put("appointmentStartTime", appointmentStartTime)
+    gauge.dataStore.scenarioStore.put("appointmentEndTime", appointmentEndTime)
+});
+
+step("Verify the details in Appointments display control with status <status>", async function (status) {
+    let appointmentDate = gauge.dataStore.scenarioStore.get("appointmentDate");
+    let appointmentStartTime = gauge.dataStore.scenarioStore.get("appointmentStartTime");
+    let appointmentEndTime = gauge.dataStore.scenarioStore.get("appointmentEndTime");
+    assert.ok(text(`${appointmentStartTime} - ${appointmentEndTime}`, toRightOf(appointmentDate, toLeftOf(status), within($("//*[text()='Appointments']/ancestor::section")))).exists())
 });

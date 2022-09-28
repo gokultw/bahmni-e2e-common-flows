@@ -22,6 +22,8 @@
 * Check and Save
 * wait for "1000"
 * Click Close
+* Select List View in Appointments
+* Get Apointmnet Date and Time
 
 # Receptionist creates a recurring appointment for days <days> at time <appointmentTime>
 * Open "Appointment scheduling" module
@@ -86,3 +88,9 @@
 # Cancel the appointment
 * Click Cancel
 * Cancel appointment
+
+# Validate Appointment Details in Clinical Dashboard with status as <status>
+* Goto Clinical application
+* Open clinical tab with all section
+* Verify the details in Appointments display control with status <status>
+* Click back button
