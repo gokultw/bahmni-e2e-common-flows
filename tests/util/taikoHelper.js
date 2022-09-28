@@ -89,7 +89,7 @@ async function executeConfigurations(configurations, observationFormName, isNotO
                     await write(configuration.value, into(textBox(toRightOf(configuration.label))))
                 break;
             case 'TextBox':
-                await write(configuration.value, into(textBox(toRightOf(configuration.label))))
+                await write(configuration.value, into(textBox(toRightOf(configuration.label+" "+configuration.unit))))
                 break;
             case 'Button':
                 {

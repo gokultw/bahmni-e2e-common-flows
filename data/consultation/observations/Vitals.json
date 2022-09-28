@@ -3,27 +3,31 @@
     "ObservationFormDetails": [
         {
             "type": "TextBox",
-            "label": "Pulse (beats/min)",
+            "label": "Pulse",
             "short_name": "HR",
-            "value": "70"
+            "value": "70",
+            "unit":"(beats/min)"
         },
         {
             "type": "TextBox",
-            "label": "Arterial blood oxygen saturation (pulse oximeter) (%)",
+            "label": "Arterial blood oxygen saturation (pulse oximeter)",
             "short_name": "SpO2",
-            "value": "99"
+            "value": "99",
+            "unit":"(%)"
         },
         {
             "type": "TextBox",
             "label": "Respiratory rate",
             "short_name": "Respiratory rate",
-            "value": "99"
+            "value": "99",
+            "unit":""
         },
         {
             "type": "TextBox",
-            "label": "Temperature (F)",
+            "label": "Temperature",
             "short_name": "Temperature",
-            "value": "99"
+            "value": "99",
+            "unit":"(F)"
         },
         {
             "type": "Group",
@@ -31,15 +35,17 @@
             "value": [
                 {
                     "type": "TextBox",
-                    "label": "Diastolic blood pressure (mmHg)",
+                    "label": "Diastolic blood pressure",
                     "short_name": "DBP",
-                    "value": "110"
+                    "value": "110",
+                    "unit":"(mmHg)"
                 },
                 {
                     "type": "TextBox",
-                    "label": "Systolic blood pressure (mmHg)",
+                    "label": "Systolic blood pressure",
                     "short_name": "Sbp",
-                    "value": "110"
+                    "value": "110",
+                    "unit":"(mmHg)"
                 },
                 {
                     "type": "Button",

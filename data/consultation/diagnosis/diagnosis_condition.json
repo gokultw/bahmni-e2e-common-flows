@@ -1,16 +1,16 @@
 {
     "diagnosis": {
-      "diagnosisName": "Cardiac arrest",
+      "diagnosisName": "Copper Fever",
       "order": "PRIMARY",
       "certainty": "CONFIRMED"
     },
     "condition": [
       {
-        "conditionName": "Diabetes II, uncomplicated",
+        "conditionName": "Diabetes Mellitus Complicating Pregnancy, Antepartum",
         "status": "Active"
       },
       {
-        "conditionName": "High Blood pressure",
+        "conditionName": "High blood pressure",
         "status": "Inactive"
       }
     ]

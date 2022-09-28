@@ -102,14 +102,13 @@ step("Verify vitals", async function () {
 });
 
 step("Verify diagnosis in patient clinical dashboard", async function () {
-    var diagnosisFile = gauge.dataStore.scenarioStore.get("diagnosisFile")
-    var medicalDiagnosis = JSON.parse(fileExtension.parseContent(diagnosisFile))
-    assert.ok(await text(medicalDiagnosis.diagnosis.diagnosisName, toLeftOf(medicalDiagnosis.diagnosis.certainty, toRightOf(medicalDiagnosis.diagnosis.order)), within($("#Diagnosis"))).exists())
+    var medicalDiagnosis = gauge.dataStore.scenarioStore.get("medicalDiagnosis")
+    assert.ok(await text(medicalDiagnosis.diagnosis.diagnosisName, toLeftOf(medicalDiagnosis.diagnosis.certainty, toRightOf(medicalDiagnosis.diagnosis.order)), within($("#Diagnoses"))).exists())
 });
 
 step("Verify condition in patient clinical dashboard", async function () {
-    var diagnosisFile = gauge.dataStore.scenarioStore.get("diagnosisFile")
-    var medicalConditions = JSON.parse(fileExtension.parseContent(diagnosisFile)).condition
+    var medicalDiagnosis = gauge.dataStore.scenarioStore.get("medicalDiagnosis")
+    var medicalConditions = medicalDiagnosis.condition
     for (var condition of medicalConditions) {
         if (condition.status != "Inactive") {
             assert.ok(await text(condition.conditionName, below(condition.status), within($("#Conditions"))).exists())
