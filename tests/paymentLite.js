@@ -281,7 +281,7 @@ step("Validate the downloaded report", async function () {
 		});
 	}
 	catch (e) {
-		console.log(e.message);
+		console.log(e);
 		gauge.message(e.message)
 	}
 });
