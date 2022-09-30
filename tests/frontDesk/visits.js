@@ -16,7 +16,8 @@ const {
     scrollTo,
     highlight,
     link,
-    below
+    below,
+    evaluate
 } = require('taiko');
 const taikoHelper = require("../util/taikoHelper")
 var fileExtension = require("../util/fileExtension")
@@ -118,16 +119,25 @@ step("Verify condition in patient clinical dashboard", async function () {
 
 step("Verify history & examination in patient clinical dashboard", async function () {
     var historyAndExaminationDetails = gauge.dataStore.scenarioStore.get("historyAndExaminationDetails")
-    assert.ok(await text(`${historyAndExaminationDetails.Chief_Complaints[0].Chief_Complaint}`, toRightOf("Chief Complaint"), within($("#History-and-Examinations"))).exists())
-    assert.ok(await text(`${historyAndExaminationDetails.Chief_Complaints[0].Sign_symptom_duration}`, within($("#History-and-Examinations")), toRightOf("Sign/symptom duration")).exists())
-    assert.ok(await text(`${historyAndExaminationDetails.Chief_Complaints[0].Units}`, toRightOf("Units"), within($("#History-and-Examinations"))).exists())
+    assert.ok(await text(`${historyAndExaminationDetails.Chief_Complaints[0].Chief_Complaint} since ${historyAndExaminationDetails.Chief_Complaints[0].Sign_symptom_duration} ${historyAndExaminationDetails.Chief_Complaints[0].Units}`, toRightOf("Chief Complaint"), within($("#History-and-Examinations"))).exists())
     assert.ok(await text(`${historyAndExaminationDetails.History_of_present_illness}`, within($("#History-and-Examinations")), toRightOf("HPI")).exists())
     assert.ok(await text(`${historyAndExaminationDetails.Smoking_status}`, within($("#History-and-Examinations")), toRightOf("Smoking status")).exists())
+    assert.ok(await $("//a[@class='img-concept']/img").exists(),"Image not displayed on history & examination");
+    await scrollTo($("//a[@class='img-concept']/img"));
+    await click($("//a[@class='img-concept']/img"));
+    assert.ok(await $(".slide").isVisible(),"Image not opened.");
+    await evaluate($(`//button[@class='dialog-close-btn']/i`), (el) => el.click())
+    await waitFor(10000)
+    assert.ok(await $(`.obs-play-btn`).exists(), "Play button is not available");
+    await scrollTo($(`.obs-play-btn`));
+    await click($(`.obs-play-btn`));
+    assert.ok(await $(`.video-dialog`).isVisible(), "Video is not opened.");
+    await evaluate($(`//*[@class='ngdialog-close clearfix']`), (el) => el.click())
 });
 
 step("Verify consultation notes in patient clinical dashboard", async function () {
     var consultationNote = gauge.dataStore.scenarioStore.get("consultationNotes")
-    await click(link(toLeftOf(text("OPD"), within($("#Visits")))))
+    await click(link(toLeftOf(text("OPD")), within($("#Visits"))))
     assert.ok(await text(consultationNote, within($("#observation-section")), toRightOf("consultation note")).exists())
 });
 

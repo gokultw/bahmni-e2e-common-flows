@@ -48,6 +48,7 @@ step("Enter History and examination details <filePath>", async function (filePat
     await write(historyAndExaminationDetails.History_of_present_illness, into($("//*[text()='History of present illness']//ancestor::div[@class='form-field-content-wrap']//textarea")));
     await click(historyAndExaminationDetails.Smoking_status, toRightOf("Smoking status"));
     await attach(path.join('./bahmni-e2e-common-flows/data/consultation/observations/patientReport.jpg'), to($("//*[@class='image-upload']/input")), { force: true });
+    await attach(path.join('./bahmni-e2e-common-flows/data/consultation/observations/Video.mp4'), to($("//*[@class='video-upload']/input")), { force: true });
 });
 
 step("Click patient name", async function () {
