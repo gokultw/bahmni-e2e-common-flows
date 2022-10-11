@@ -22,7 +22,8 @@ const {
 	toRightOf,
 	$,
 	scrollTo,
-	toLeftOf
+	toLeftOf,
+	link
 } = require('taiko');
 const taikoHelper = require("../util/taikoHelper")
 var fileExtension = require("../util/fileExtension");
@@ -120,7 +121,7 @@ step("Enter Form Values <observationFormFile>", async function (vitalFormFile) {
 })
 
 step("Click History and Examination", async function () {
-	await click("History and Examination", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout })
+	await click(link("History and Examination"), { waitForNavigation: true, navigationTimeout: process.env.actionTimeout })
 	await taikoHelper.repeatUntilNotFound($("#overlay"))
 });
 
