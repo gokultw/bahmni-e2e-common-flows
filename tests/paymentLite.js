@@ -157,11 +157,23 @@ step("Click Customers", async function () {
 });
 
 step("Select customer", async function () {
-	var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
-	var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
-	var lastName = gauge.dataStore.scenarioStore.get("patientLastName")
-
-	await click(`${firstName} ${middleName}`)
+	let fullName = gauge.dataStore.scenarioStore.get("patientFullName")
+	await click("Customers", { waitForNavigation: true })
+	let maxRetry = 5
+	while (maxRetry > 0) {
+		await waitFor(1000);
+		if (await $("//SPAN[@title='" + fullName + "']").exists(500, 1000)) {
+			maxRetry = 0
+			await click($("//SPAN[@title='" + fullName + "']"));
+		}
+		else {
+			maxRetry = maxRetry - 1;
+			assert.ok(maxRetry > 0, "Patient not found in Payment lite. Patient - " + fullName)
+			console.log("Waiting for 5 seconds and reload the customers page to wait for Patient - " + fullName + ". Remaining attempts " + maxRetry)
+			await waitFor(4000);
+			await click("Customers", { waitForNavigation: true })
+		}
+	}
 });
 
 step("Click New Transaction", async function () {
