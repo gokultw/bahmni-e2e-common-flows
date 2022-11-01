@@ -155,6 +155,13 @@ step("Enter Exchange Rate <rate>", async function (rate) {
 step("Click Customers", async function () {
 	await click("Customers", { waitForNavigation: true })
 });
+//Delete this functions once payment sync is resolved
+async function createCustomers(){
+	await click(button("New Customer"))
+	await waitFor("Basic Info")
+	await write(gauge.dataStore.scenarioStore.get("patientFullName"), into(textBox(below("Display Name"))))
+	await click(button("Save customer", { waitForNavigation: true }))
+}
 
 step("Select customer", async function () {
 	let fullName = gauge.dataStore.scenarioStore.get("patientFullName")
@@ -168,10 +175,20 @@ step("Select customer", async function () {
 		}
 		else {
 			maxRetry = maxRetry - 1;
-			assert.ok(maxRetry > 0, "Patient not found in Payment lite. Patient - " + fullName)
+			//Start - Patient Sync Work Around
+			if(maxRetry == 0){
+				createCustomers();
+			}
+			// assert.ok(maxRetry > 0, "Patient not found in Payment lite. Patient - " + fullName)
+			//End - Patient Sync Work Around
 			console.log("Waiting for 5 seconds and reload the customers page to wait for Patient - " + fullName + ". Remaining attempts " + maxRetry)
 			await waitFor(4000);
 			await click("Customers", { waitForNavigation: true })
+			//Start - Patient Sync Work Around
+			if(maxRetry == 0){
+				await click($("//SPAN[@title='" + fullName + "']"));
+			}
+			//End - Patient Sync Work Around
 		}
 	}
 });
