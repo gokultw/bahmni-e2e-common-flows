@@ -177,7 +177,7 @@ step("Select customer", async function () {
 			maxRetry = maxRetry - 1;
 			//Start - Patient Sync Work Around
 			if(maxRetry == 0){
-				createCustomers();
+				await createCustomers();
 			}
 			// assert.ok(maxRetry > 0, "Patient not found in Payment lite. Patient - " + fullName)
 			//End - Patient Sync Work Around
