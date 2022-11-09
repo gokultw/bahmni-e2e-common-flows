@@ -335,7 +335,7 @@ step("Choose newly created patient", async function () {
     await click(`${firstName} ${lastName}`, {
         waitForNavigation: true,
         navigationTimeout: process.env.actionTimeout
-    }, above(patientIdentifierValue))
+    })
     await taikoHelper.repeatUntilNotFound($("#overlay"))
 });
 
