@@ -72,7 +72,7 @@ step("verify name with id", async function () {
     var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
     var patientIdentifierValue = gauge.dataStore.scenarioStore.get("patientIdentifier");
 
-    assert.ok(await (await text(`${firstName} ${lastName} (${patientIdentifierValue})`, toLeftOf("Female"))).exists())
+    assert.ok(await (await text(`${firstName} ${lastName} (${patientIdentifierValue})`, toLeftOf(gauge.dataStore.scenarioStore.get("patientGender")))).exists())
 });
 
 step("verify OPD", async function () {

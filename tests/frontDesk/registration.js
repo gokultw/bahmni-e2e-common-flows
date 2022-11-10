@@ -23,12 +23,14 @@ const {
     press,
     scrollTo,
     reload,
-    timeField
+    timeField,
+    attach,
+    fileField
 } = require('taiko');
 var users = require("../util/users");
 var date = require("../util/date");
 const taikoHelper = require("../util/taikoHelper")
-
+const { faker } = require('@faker-js/faker/locale/en_IND');
 var assert = require("assert");
 
 step("Open <moduleName> module", async function (moduleName) {
@@ -42,21 +44,23 @@ step("Open <moduleName> module", async function (moduleName) {
 
 step("Enter patient random first name", async function () {
     var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
-    if (firstName == null || firstName == "") {
-        firstName = users.randomName(10)
-        gauge.message(`firstName ${firstName}`)
+    var patientGender = users.getRandomPatientGender();
+    if (!firstName) {
+        firstName = faker.name.firstName(patientGender);
         gauge.dataStore.scenarioStore.put("patientFirstName", firstName)
     }
+    gauge.message(`firstName ${firstName}`)
     await write(firstName, into(textBox({ "placeholder": "First Name" })));
 });
 
 step("Enter patient random middle name", async function () {
     var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
-    if (middleName == null || middleName == "") {
-        middleName = users.randomName(10)
-        gauge.message(`middleName ${middleName}`)
+    var patientGender = users.getRandomPatientGender()
+    if (!middleName) {
+        middleName = faker.name.middleName(patientGender);
         gauge.dataStore.scenarioStore.put("patientMiddleName", middleName)
     }
+    gauge.message(`middleName ${middleName}`)
     await write(middleName, into(textBox({ "placeholder": "Middle Name" })));
 });
 
@@ -64,13 +68,13 @@ step("Enter patient random last name", async function () {
     var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
     var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
     var lastName = gauge.dataStore.scenarioStore.get("patientLastName")
-    if (lastName == null || lastName == "") {
-        lastName = users.randomName(10)
-        gauge.message(`lastName ${lastName}`)
+    var patientGender = users.getRandomPatientGender()
+    if (!lastName) {
+        lastName = faker.name.lastName(patientGender);
         gauge.dataStore.scenarioStore.put("patientLastName", lastName)
-        gauge.dataStore.scenarioStore.put("patientFullName", `${firstName} ${middleName} ${lastName}`)
     }
-
+    gauge.message(`lastName ${lastName}`)
+    gauge.dataStore.scenarioStore.put("patientFullName", `${firstName} ${middleName} ${lastName}`)
     await write(lastName, into(textBox({ "placeholder": "Last Name" })));
 });
 
@@ -100,6 +104,39 @@ step("Enter patient mobile number <mobile>", async function (mobile) {
             await write(mobile, into(textBox(toRightOf("Phone Number"))));
     }
     gauge.dataStore.scenarioStore.put("patientMobileNumber", mobile)
+});
+
+step("Enter patient random gender", async function () {
+    if (gauge.dataStore.scenarioStore.get("isNewPatient"))
+        await dropDown("Gender *").select(users.getRandomPatientGender());
+    gauge.dataStore.scenarioStore.put("patientGender", users.getRandomPatientGender())
+    gauge.message(`patientGender ${users.getRandomPatientGender()}`)
+});
+
+step("Enter random age of the patient", async function () {
+    var age = faker.random.numeric(2);
+    if (gauge.dataStore.scenarioStore.get("isNewPatient")) {
+        await write(age, into(textBox(toRightOf("Years"))));
+        await click(checkBox(toLeftOf("Estimated")));
+    }
+    gauge.dataStore.scenarioStore.put("patientAge", age)
+    var birthDate = await timeField(toRightOf("Date of Birth")).value();
+    gauge.dataStore.scenarioStore.put("patientBirthYear", birthDate.split("-")[0])
+    gauge.message(`age ${age}`)
+});
+
+step("Enter patient random mobile number", async function () {
+    var mobile = faker.phone.number('+919#########')
+    if (await text("Primary Contact").exists(500, 1000)) {
+        if (gauge.dataStore.scenarioStore.get("isNewPatient"))
+            await write(mobile, into(textBox(toRightOf("Primary Contact"))));
+    }
+    else if (await text("Phone Number").exists(500, 1000)) {
+        if (gauge.dataStore.scenarioStore.get("isNewPatient"))
+            await write(mobile, into(textBox(toRightOf("Phone Number"))));
+    }
+    gauge.dataStore.scenarioStore.put("patientMobileNumber", mobile)
+    gauge.message(`mobile ${mobile}`)
 });
 
 step("Click create new patient", async function () {
@@ -189,8 +226,8 @@ step("Check login <location>", async function (location) {
 });
 
 step("Enter registration fees <arg0>", async function (arg0) {
-    if (await $("//*[text()='REGISTRATION FEES']/following::input[@type='number']").exists(500, 2000)) {
-        await write("100", into(textBox(toRightOf("Registration Fees"))));
+    if (await $("//*[text()='Registration Fee']/following::input[@type='number']").exists(500, 2000)) {
+        await write("100", into(textBox(toRightOf("Registration Fee"))));
     }
 });
 
@@ -254,9 +291,12 @@ step("Verify correct patient form is open", async function () {
     assert.ok(await text(patientIdentifierValue).exists());
 });
 
-step("Enter village <village>", async function (village) {
+step("Enter random village", async function () {
+    var village = faker.address.cityName();
     if (gauge.dataStore.scenarioStore.get("isNewPatient"))
         await write(village, into(textBox(toRightOf("Village"))))
+    gauge.message(`village ${village}`)
+
 });
 
 step("Check if patient <firstName> <middleName> <lastName> with mobile <mobileNumber> exists", async function (firstName, middleName, lastName, arg2) {
@@ -346,4 +386,35 @@ step("wait for create new button", async function () {
 step("Confirm if you want to close the visit", async function () {
     await waitFor(2000)
     await confirm('Are you sure you want to close this visit?', async () => await accept())
+});
+
+step("Upload patient image", async function () {
+    await click($('[ng-click="launchPhotoUploadPopup()"]'))
+    await attach(await users.downloadAndReturnImage(), fileField({ "class": "fileUpload" }));
+    await click(button("Confirm Photo"))
+});
+
+step("Enter random pinCode", async function () {
+    var pinCode = await users.randomZipCode();
+    await write(pinCode, into(textBox(toRightOf("Pin Code"))));
+    await click(link(pinCode));
+    gauge.message(`pinCode ${pinCode}`)
+});
+
+step("Enter random Locality/Sector", async function () {
+    var localitySector = faker.address.street()
+    await write(localitySector, into(textBox(toRightOf("Locality/Sector"))));
+    gauge.message(`localitySector ${localitySector}`)
+});
+
+step("Enter random House number/Flat number", async function () {
+    var houseNumber = faker.address.buildingNumber()
+    await write(houseNumber, into(textBox(toRightOf("House number/Flat number"))));
+    gauge.message(`houseNumber ${houseNumber}`)
+});
+
+step("Enter random email address", async function () {
+    var emailAddress = faker.internet.email()
+    await write(emailAddress, into(textBox(toRightOf("Email Address"))));
+    gauge.message(`emailAddress ${emailAddress}`)
 });

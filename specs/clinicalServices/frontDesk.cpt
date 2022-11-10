@@ -20,25 +20,20 @@
 * Log out if still logged in
 * Login as user <user>
 
-# Create a new patient with gender <gender> with random name, aged <age> with mobile number <mobileNumber>
+# Create a new patient with random patient details
 * Click create new patient
 * Enter patient random first name
 * Enter patient random middle name
 * Enter patient random last name
-* Enter patient gender <gender>
-* Enter age of the patient <age>
-* Enter village "Village"
-* Enter patient mobile number <mobileNumber>
-* Save the patient data
-
-# Create a new patient with gender <gender> with random name, aged <age> with mobile number <mobileNumber> without village
-* Click create new patient
-* Enter patient random first name
-* Enter patient random middle name
-* Enter patient random last name
-* Enter patient gender <gender>
-* Enter age of the patient <age>
-* Enter patient mobile number <mobileNumber>
+* Enter patient random gender
+* Enter random age of the patient
+* Enter random House number/Flat number
+* Enter random Locality/Sector
+* Enter random village
+* Enter random pinCode
+* Enter patient random mobile number
+* Enter random email address
+* Upload patient image
 * Save the patient data
 
 # Open clinical tab
@@ -86,21 +81,17 @@
 * Confirm if you want to close the visit
 * Close visit
 
-# Receptionist creates the patient with mobile number <mobileNumber> without village
+# Receptionist creates the patient
 * Open "Registration" module
-* Create a new patient with gender "Female" with random name, aged "29" with mobile number <mobileNumber> without village
+* Create a new patient with random patient details
 
-# Receptionist creates the patient with mobile number <mobileNumber>
-* Open "Registration" module
-* Create a new patient with gender "Female" with random name, aged "29" with mobile number <mobileNumber>
-
-# Receptionist creates the patient with mobile number <mobileNumber> and starts an OPD
-* Receptionist creates the patient with mobile number <mobileNumber>
+# Receptionist creates the patient and starts an OPD
+* Receptionist creates the patient
 * Start an OPD Visit
 
-# Receptionist creates the patient with mobile number <mobileNumber> and starts an Special OPD
+# Receptionist creates the patient and starts an Special OPD
 * Open "Registration" module
-* Create a new patient with gender "Female" with random name, aged "29" with mobile number <mobileNumber>
+* Create a new patient with random patient details
 * Start an Special OPD Visit
 
 # Create a new patient with gender <gender> with name <firstName> <middleName> <lastName>, aged <age> with mobile number <mobileNumber>
@@ -110,17 +101,22 @@
 * Enter patient last name <lastName>
 * Enter patient gender <gender>
 * Enter age of the patient <age>
-* Enter village "Village"
 * Enter patient mobile number <mobileNumber>
+* Enter random House number/Flat number
+* Enter random Locality/Sector
+* Enter random village
+* Enter random pinCode
+* Enter random email address
+* Upload patient image
 * Save the newly created patient data
 
 # Create a new patient, if patient does not exist with firstName <firstName> middleName <middleName> lastName <lastName>, gender <gender> mobileNumber <mobileNumber> age <age>
 * Check if patient <firstName> <middleName> <lastName> with mobile "mobileNumber" exists
 * Create a new patient with gender <gender> with name <firstName> <middleName> <lastName>, aged <age> with mobile number <mobileNumber>
 
-# Receptionist creates a patient with mobileNumber <mobileNumber> and starts an IPD visit
+# Receptionist creates a patient and starts an IPD visit
 * Open "Registration" module
-* Create a new patient with gender "Female" with random name, aged "29" with mobile number <mobileNumber>
+* Create a new patient with random patient details
 * Start an IPD Visit
 
 # Save data
