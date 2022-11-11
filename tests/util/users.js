@@ -5,7 +5,9 @@ const fs = require('fs');
 const Axios = require('axios')
 const { csv } = require('csvtojson');
 const path = require('path')
-
+const assert = require("assert")
+const fileExtension = require("./fileExtension")
+const { waitFor } = require("taiko");
 function getUserNameFromEncoding(encodedUser) {
     let user = new Buffer(encodedUser, 'base64');
     let decodedUser = user.toString('ascii');
@@ -66,6 +68,9 @@ async function downloadAndReturnImage() {
         responseType: 'stream'
     });
     response.data.pipe(fs.createWriteStream(filepath));
+    filepath = path.resolve(filepath);
+    await waitFor(() => fileExtension.exists(filepath))
+    assert.ok(fileExtension.exists(filepath), "Patient image not downloaded.")
     return filepath;
 }
 async function randomZipCode() {
