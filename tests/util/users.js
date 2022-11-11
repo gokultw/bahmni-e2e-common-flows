@@ -4,6 +4,7 @@ const { faker } = require('@faker-js/faker/locale/en_IND');
 const fs = require('fs');
 const Axios = require('axios')
 const { csv } = require('csvtojson');
+const path = require('path')
 
 function getUserNameFromEncoding(encodedUser) {
     let user = new Buffer(encodedUser, 'base64');
@@ -68,7 +69,7 @@ async function downloadAndReturnImage() {
     return filepath;
 }
 async function randomZipCode() {
-    let jsonfile = await csv().fromFile('/Users/gokul.kuppan/Desktop/addresshierarchy.csv');
+    let jsonfile = await csv().fromFile(path.resolve(__dirname, "../../data/registration/addresshierarchy.csv"));
     return jsonfile[faker.datatype.number({ min: 1, max: jsonfile.length })]["ZIP"]
 }
 module.exports = {
