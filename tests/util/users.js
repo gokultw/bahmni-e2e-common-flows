@@ -61,14 +61,14 @@ function getRandomPatientGender() {
 }
 
 async function downloadAndReturnImage() {
-    var filepath = "logs/image" + faker.datatype.number({ min: 1, max: 100 }) + ".jpg"
+    fileExtension.createDirIfNotPresent("temp");
+    var filepath = "temp/image" + faker.datatype.number({ min: 1, max: 100 }) + ".jpg"
     const response = await Axios({
         url: faker.image.avatar(),
         method: 'GET',
         responseType: 'stream'
     });
-    response.data.pipe(fs.createWriteStream(filepath));
-    filepath = path.resolve(filepath);
+    await response.data.pipe(fs.createWriteStream(filepath));
     await waitFor(() => fileExtension.exists(filepath))
     assert.ok(fileExtension.exists(filepath), "Patient image not downloaded.")
     return filepath;
