@@ -69,8 +69,9 @@ async function downloadAndReturnImage() {
         responseType: 'stream'
     });
     await response.data.pipe(fs.createWriteStream(filepath));
-    await waitFor(() => fileExtension.exists(filepath))
-    assert.ok(fileExtension.exists(filepath), "Patient image not downloaded.")
+    await waitFor(500);
+    await waitFor(() => fileExtension.exists(filepath));
+    assert.ok(fileExtension.exists(filepath), "Patient image not downloaded.");
     return filepath;
 }
 async function randomZipCode() {
