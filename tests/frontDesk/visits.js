@@ -93,11 +93,11 @@ step("Verify vitals", async function () {
     for (var vitalFormValue of vitalFormValues.ObservationFormDetails) {
         if (vitalFormValue.type == 'Group') {
             for (var vitalFormGroup of vitalFormValue.value) {
-                assert.ok(await text(vitalFormGroup.value, within($("#Vitals")), toRightOf(vitalFormGroup.short_name)).exists())
+                assert.ok(await text(vitalFormGroup.value, within($("#Vitals-Flow-Sheet")), toRightOf(vitalFormGroup.short_name)).exists())
             }
         }
         else {
-            assert.ok(await text(vitalFormValue.value, within($("#Vitals")), toRightOf(vitalFormValue.short_name)).exists())
+            assert.ok(await text(vitalFormValue.value, within($("#Vitals-Flow-Sheet")), toRightOf(vitalFormValue.short_name)).exists())
         }
     };
 });
