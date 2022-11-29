@@ -125,6 +125,7 @@ step("Verify history & examination in patient clinical dashboard", async functio
     assert.ok(await $("//a[@class='img-concept']/img").exists(),"Image not displayed on history & examination");
     await scrollTo($("//a[@class='img-concept']/img"));
     await click($("//a[@class='img-concept']/img"));
+    await waitFor(async () => await $(".slide").isVisible())
     assert.ok(await $(".slide").isVisible(),"Image not opened.");
     await evaluate($(`//button[@class='dialog-close-btn']/i`), (el) => el.click())
     await waitFor(10000)
