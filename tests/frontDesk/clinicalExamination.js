@@ -134,7 +134,7 @@ step("Doctor notes the diagnosis and condition <filePath>", async function (file
         await write(medicalDiagnosis.condition[i].conditionName, into(textBox(below("Condition"))));
         await waitFor(() => $("(//A[starts-with(text(),\"" + medicalDiagnosis.condition[i].conditionName + "\")])[1]").isVisible())
         await click($("(//A[starts-with(text(),\"" + medicalDiagnosis.condition[i].conditionName + "\")])[1]"))
-        await click(medicalDiagnosis.condition[i].status, below($("//div[@class='col col2']//span[contains(text(),'Status')]")));
+        await click(medicalDiagnosis.condition[i].status, below($("//div[@class='col col2']//*[contains(text(),'Status')]")));
         await click("Add", below("Action"))
     }
 });
