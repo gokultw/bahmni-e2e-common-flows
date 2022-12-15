@@ -12,7 +12,7 @@ async function repeatUntilEnabled(element) {
 async function repeatUntilFound(element) {
     var isFound = false;
     do {
-        isFound = await element.exists()
+        isFound = await element.exists(500,1000)
     } while (!isFound)
 }
 
