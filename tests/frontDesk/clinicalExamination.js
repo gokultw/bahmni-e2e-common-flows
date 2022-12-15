@@ -29,7 +29,9 @@ step("Doctor prescribe tests <prescriptions>", async function (prescriptionFile)
     gauge.message(testPrescription)
     gauge.dataStore.scenarioStore.put("LabTest", testPrescription.test)
     await taikoHelper.repeatUntilFound(text(testPrescription.test))
+    console.log("test found.")
     await click(testPrescription.test, { force: true })
+    console.log("Selected test.")
     await waitFor(100)
 });
 
