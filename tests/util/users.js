@@ -63,11 +63,21 @@ function getRandomPatientGender() {
 async function downloadAndReturnImage() {
     fileExtension.createDirIfNotPresent("temp");
     var filepath = "temp/image" + faker.datatype.number({ min: 1, max: 100 }) + ".jpg"
-    const response = await Axios({
-        url: faker.image.avatar(),
-        method: 'GET',
-        responseType: 'stream'
-    });
+    var response = "";
+    let max_Retry = 5
+    while (max_Retry > 0) {
+        try {
+            response = await Axios({
+                url: faker.image.avatar(),
+                method: 'GET',
+                responseType: 'stream'
+            });
+            max_Retry = 0;
+        } catch (e) {
+            console.log("Image download failed - "+e.message+". Retrying...")
+            max_Retry = max_Retry - 1;
+        }
+    }
     await response.data.pipe(fs.createWriteStream(filepath));
     await waitFor(500);
     await waitFor(() => fileExtension.exists(filepath));
