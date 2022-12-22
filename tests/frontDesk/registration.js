@@ -46,7 +46,7 @@ step("Enter patient random first name", async function () {
     var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
     var patientGender = users.getRandomPatientGender();
     if (!firstName) {
-        firstName = faker.name.firstName(patientGender);
+        firstName = faker.name.firstName(patientGender).replace(" ","");
         gauge.dataStore.scenarioStore.put("patientFirstName", firstName)
     }
     gauge.message(`firstName ${firstName}`)
@@ -57,7 +57,7 @@ step("Enter patient random middle name", async function () {
     var middleName = gauge.dataStore.scenarioStore.get("patientMiddleName")
     var patientGender = users.getRandomPatientGender()
     if (!middleName) {
-        middleName = faker.name.middleName(patientGender);
+        middleName = faker.name.middleName(patientGender).replace(" ","");
         gauge.dataStore.scenarioStore.put("patientMiddleName", middleName)
     }
     gauge.message(`middleName ${middleName}`)
@@ -70,7 +70,7 @@ step("Enter patient random last name", async function () {
     var lastName = gauge.dataStore.scenarioStore.get("patientLastName")
     var patientGender = users.getRandomPatientGender()
     if (!lastName) {
-        lastName = faker.name.lastName(patientGender);
+        lastName = faker.name.lastName(patientGender).replace(" ","");
         gauge.dataStore.scenarioStore.put("patientLastName", lastName)
     }
     gauge.message(`lastName ${lastName}`)
