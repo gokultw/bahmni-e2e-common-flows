@@ -114,6 +114,7 @@ step("Goto tomorrow's date", async function () {
 step("Goto appointments's date", async function () {
     var appointmentStartDate = gauge.dataStore.scenarioStore.get("appointmentStartDate")
     await timeField(toRightOf("Week")).select(new Date(appointmentStartDate));
+    await taikoHelper.repeatUntilNotFound($("#overlay"))
 });
 
 step("Goto Next week", async function () {
