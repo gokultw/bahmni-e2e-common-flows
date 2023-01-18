@@ -147,6 +147,6 @@ step("Validate the lab tests are available in patient clinical dashboard", async
     assert.ok(await text(labTest, within($("#Lab-Results"))).exists())
 });
 
-step("Verify error displayed on page", async function () {
+step("Verify no error displayed on page", async function () {
    assert.equal(await $("//DIV[@class='message-container error-message-container']").exists(500,1000),false,"Error displayed on page.")
 });
