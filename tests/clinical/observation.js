@@ -61,7 +61,7 @@ step("Click patient name", async function () {
 });
 
 step("Should not find the patient's name", async function () {
-    var firstName = gauge.dataStore.scenarioStore.get("patientFirstName")
-    assert.ok(!await text(`${firstName}`).exists())
+    var fullName = gauge.dataStore.scenarioStore.get("patientFullName")
+    assert.ok(!await text(fullName).exists())
 });
 
