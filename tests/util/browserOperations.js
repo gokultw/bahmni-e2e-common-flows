@@ -13,6 +13,7 @@ const path = require('path');
 const taikoHelper = require("../util/taikoHelper");
 const console = require('console');
 const fileExtension = require("../util/fileExtension")
+const manageUsers = require("../util/requestResponse")
 const headless = process.env.headless_chrome.toLowerCase() === 'true';
 
 beforeSuite(async () => {
@@ -21,6 +22,7 @@ beforeSuite(async () => {
     } catch (e) {
         console.log("Error Deleting directory - " + process.env.video_file_path + ". Error message - " + e.message)
     }
+    await manageUsers.setRoles()
 });
 
 afterSuite(async () => {

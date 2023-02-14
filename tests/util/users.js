@@ -72,16 +72,16 @@ async function downloadAndReturnImage() {
                 method: 'GET',
                 responseType: 'stream'
             });
+            await response.data.pipe(fs.createWriteStream(filepath));
+            await waitFor(500);
+            await waitFor(() => fileExtension.exists(filepath));
+            assert.ok(fileExtension.exists(filepath), "Patient image not downloaded.");
             max_Retry = 0;
         } catch (e) {
-            console.log("Image download failed - "+e.message+". Retrying...")
+            console.log("Image download failed - " + e.message + ". Retrying...")
             max_Retry = max_Retry - 1;
         }
     }
-    await response.data.pipe(fs.createWriteStream(filepath));
-    await waitFor(500);
-    await waitFor(() => fileExtension.exists(filepath));
-    assert.ok(fileExtension.exists(filepath), "Patient image not downloaded.");
     return filepath;
 }
 async function randomZipCode() {
