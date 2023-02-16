@@ -17,6 +17,7 @@ const manageUsers = require("../util/requestResponse")
 const headless = process.env.headless_chrome.toLowerCase() === 'true';
 
 beforeSuite(async () => {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     try {
         fileExtension.removeDir(process.env.video_file_path);
     } catch (e) {
