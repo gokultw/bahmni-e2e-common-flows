@@ -61,7 +61,7 @@ beforeScenario(async (context) => {
     let scenarioName = context.currentScenario.name;
     let videoDir = process.env.video_file_path + '/' + scenarioName.replace(/ /g, "_")
     gauge.dataStore.scenarioStore.put("videoDir", videoDir)
-    await video.startRecording(videoDir + '/video.mp4',5);
+    await video.startRecording(videoDir + '/video.mp4', 5);
 });
 
 afterScenario(async (context) => {

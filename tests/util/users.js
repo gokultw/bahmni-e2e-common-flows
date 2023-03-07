@@ -84,6 +84,13 @@ async function downloadAndReturnImage() {
     }
     return filepath;
 }
+async function downloadAndReturnBase64Image() {
+    let image = await Axios.get(faker.image.avatar(), { responseType: 'arraybuffer' });
+    let strB64Image = Buffer.from(image.data).toString('base64');
+    return strB64Image;
+}
+
+
 async function randomZipCode() {
     let jsonfile = await csv().fromFile(path.resolve(__dirname, "../../data/registration/addresshierarchy.csv"));
     return jsonfile[faker.datatype.number({ min: 1, max: jsonfile.length })]["ZIP"]
@@ -97,5 +104,7 @@ module.exports = {
     getRandomPatientGender: getRandomPatientGender,
     randomNumber: randomNumber,
     downloadAndReturnImage: downloadAndReturnImage,
-    randomZipCode: randomZipCode
+    randomZipCode: randomZipCode,
+    downloadAndReturnBase64Image: downloadAndReturnBase64Image
+
 }
