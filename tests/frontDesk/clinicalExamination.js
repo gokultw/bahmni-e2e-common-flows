@@ -141,5 +141,3 @@ step("Doctor notes the diagnosis and condition <filePath>", async function (file
         await click("Add", below("Action"))
     }
 });
-
-

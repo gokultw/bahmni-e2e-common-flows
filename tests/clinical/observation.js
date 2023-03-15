@@ -19,7 +19,8 @@ const {
     button,
     near,
     to,
-    link
+    link,
+    timeField
 } = require('taiko');
 const taikoHelper = require("../util/taikoHelper")
 const fileExtension = require("../util/fileExtension")
@@ -36,7 +37,7 @@ step("Click Vitals", async function () {
 
 step("Enter History and examination details <filePath>", async function (filePath) {
     await click(link("History and Examination"), { waitForNavigation: true, navigationTimeout: process.env.actionTimeout })
-	await taikoHelper.repeatUntilNotFound($("#overlay"))
+    await taikoHelper.repeatUntilNotFound($("#overlay"))
     var historyAndExaminationFile = `./bahmni-e2e-common-flows/data/${filePath}.json`
 
     var historyAndExaminationDetails = JSON.parse(fileExtension.parseContent(historyAndExaminationFile))
@@ -64,4 +65,3 @@ step("Should not find the patient's name", async function () {
     var fullName = gauge.dataStore.scenarioStore.get("patientFullName")
     assert.ok(!await text(fullName).exists())
 });
-
