@@ -1,5 +1,5 @@
 {
-    "ObservationFormName": " Referral Letter ",
+    "ObservationFormName": "Referral letter",
     "ObservationFormDetails": [
         {
             "type": "TextArea",

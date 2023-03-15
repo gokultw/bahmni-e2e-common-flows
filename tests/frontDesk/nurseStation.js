@@ -112,7 +112,7 @@ step("Click Admit on popup", async function () {
 
 step("Enter Form Values <observationFormFile>", async function (observationFormFile) {
 	var observationFormValues = JSON.parse(fileExtension.parseContent(`./bahmni-e2e-common-flows/data/${observationFormFile}.json`))
-	gauge.dataStore.scenarioStore.put("observationFormValues", observationFormValues)
+	gauge.dataStore.scenarioStore.put(observationFormValues.ObservationFormName, observationFormValues)
 	await taikoHelper.repeatUntilNotFound($("#overlay"))
 	if (!await link(observationFormValues.ObservationFormName).exists(500, 1000)) {
 		await click("Add New Obs Form", { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });

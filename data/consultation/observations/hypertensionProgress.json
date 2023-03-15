@@ -1,19 +1,19 @@
 {
-    "ObservationFormName": " Hypertension Progress ",
+    "ObservationFormName": "Hypertension Progress",
     "ObservationFormDetails": [
         {
             "type": "TextBox",
             "label": "Systolic blood pressure",
             "short_name": "Sbp",
             "value": "140",
-            "unit":"mmHg"
+            "unit":"(mmHg)"
         },
         {
             "type": "TextBox",
             "label": "Diastolic blood pressure",
             "short_name": "DBP",
             "value": "140",
-            "unit":"mmHg"
+            "unit":"(mmHg)"
         },
         {
             "type": "Date",
@@ -25,7 +25,7 @@
             "label": "Serum creatinine",
             "short_name": "Cr",
             "value": "70",
-            "unit":"mm/dL"
+            "unit":"(mg/dL)"
         },
         {
             "type": "Date",
@@ -37,7 +37,7 @@
             "label": "Low-density lipoprotein cholesterol",
             "short_name": "LDL",
             "value": "1.56",
-            "unit":"mmol/L"
+            "unit":"(mmol/L)"
         }
     ]
 }

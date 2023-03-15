@@ -1,5 +1,5 @@
 {
-    "ObservationFormName": " Admission Letter ",
+    "ObservationFormName": "Admission Letter",
     "ObservationFormDetails": [
         {
             "type": "TextArea",

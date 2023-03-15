@@ -75,7 +75,7 @@ async function executeConfigurations(configurations, observationFormName, isNotO
                 if (configuration.unit === undefined)
                     await write(configuration.value, into(textBox(toRightOf(configuration.label))))
                 else
-                    await write(configuration.value + " " + configuration.unit, into(textBox(toRightOf(configuration.label))))
+                    await write(configuration.value, into(textBox(toRightOf(configuration.label + " " + configuration.unit))))
                 break;
             case 'Button':
                 {

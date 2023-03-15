@@ -1,6 +1,11 @@
 {
-    "ObservationFormName": " Malaria ",
+    "ObservationFormName": "Malaria",
     "ObservationFormDetails": [
+        {
+            "type": "Button",
+            "label": "Malarial prophylaxis",
+            "value": "Yes"
+        },
         {
             "type": "Button",
             "label": "Anti-malarial given",

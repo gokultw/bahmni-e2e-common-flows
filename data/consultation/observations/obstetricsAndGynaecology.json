@@ -6,7 +6,7 @@
             "label": "Fundal height",
             "short_name": "Fundal height",
             "value": "20",
-            "unit":"cm"
+            "unit":"(cm)"
         },
         {
             "type": "Button",
@@ -16,7 +16,7 @@
         {
             "type": "TextBox",
             "label": "Fetal heart rate",
-            "value": "72"
+            "value": "165"
         },
         {
             "type": "Date",

@@ -83,7 +83,7 @@ step("Verify medical prescription in patient clinical dashboard", async function
     await taikoHelper.repeatUntilNotFound($(".dashboard-section-loader"))
     var prescriptionCount = gauge.dataStore.scenarioStore.get("prescriptionsCount")
     for (var i = 0; i < prescriptionCount; i++) {
-        var prescriptionFile = gauge.dataStore.scenarioStore.get("prescriptions"+i)
+        var prescriptionFile = gauge.dataStore.scenarioStore.get("prescriptions" + i)
         var medicalPrescriptions = JSON.parse(fileExtension.parseContent(prescriptionFile))
         assert.ok(await text(medicalPrescriptions.drug_name, within($("#Treatments"))).exists())
         assert.ok(await text(`${medicalPrescriptions.dose} ${medicalPrescriptions.units}, ${medicalPrescriptions.frequency}`, within($("#Treatments"))).exists())
@@ -93,7 +93,7 @@ step("Verify medical prescription in patient clinical dashboard", async function
 
 
 step("Verify vitals", async function () {
-    var vitalFormValues = gauge.dataStore.scenarioStore.get("vitalFormValues")
+    var vitalFormValues = gauge.dataStore.scenarioStore.get("Vitals")
     for (var vitalFormValue of vitalFormValues.ObservationFormDetails) {
         if (vitalFormValue.type == 'Group') {
             for (var vitalFormGroup of vitalFormValue.value) {
@@ -157,11 +157,10 @@ step("Verify no error displayed on page", async function () {
 
 step("Validate obs <form> on the patient clinical dashboard", async function (formPath) {
     var obsFormValues = JSON.parse(fileExtension.parseContent(`./bahmni-e2e-common-flows/data/${formPath}.json`))
-	gauge.dataStore.scenarioStore.put("obsFormValues", obsFormValues)
-	await taikoHelper.repeatUntilNotFound($("#overlay"))
-    await click($("//i[@class='fa fa-eye']"),toRightOf(obsFormValues.ObservationFormName))
+    gauge.dataStore.scenarioStore.put(obsFormValues.ObservationFormName, obsFormValues)
+    await taikoHelper.repeatUntilNotFound($("#overlay"))
+    await click($("//i[@class='fa fa-eye']"), within($("//SPAN[text()='" + obsFormValues.ObservationFormName.trim() + "']/..")))
     await taikoHelper.repeatUntilNotFound($("#overlay"))
     await taikoHelper.validateFormFromFile(obsFormValues.ObservationFormDetails, obsFormValues.ObservationFormName)
     await click($('.ngdialog-close'))
-    await waitFor(10000);
 });
