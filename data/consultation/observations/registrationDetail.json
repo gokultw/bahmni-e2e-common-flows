@@ -6,13 +6,13 @@
             "label": "Nutritional  Values",
             "value": [
                 {
-                    "type": "TextArea",
+                    "type": "TextBox",
                     "label": "Height (cm)",
                     "short_name": "HT",
                     "value": "154"
                 },
                 {
-                    "type": "TextArea",
+                    "type": "TextBox",
                     "label": "Weight (kg)",
                     "short_name": "WT",
                     "value": "52"
@@ -24,13 +24,13 @@
             "label": "Blood Pressure",
             "value": [
                 {
-                    "type": "TextArea",
+                    "type": "TextBox",
                     "label": "Systolic blood pressure",
                     "short_name": "Sbp",
                     "value": "60"
                 },
                 {
-                    "type": "TextArea",
+                    "type": "TextBox",
                     "label": "Diastolic blood pressure",
                     "short_name": "DBP",
                     "value": "50"
@@ -47,13 +47,13 @@
             "label": "Vitals",
             "value": [
                 {
-                    "type": "TextArea",
+                    "type": "TextBox",
                     "label": "Pulse",
                     "short_name": "HR",
                     "value": "72"
                 },
                 {
-                    "type": "TextArea",
+                    "type": "TextBox",
                     "label": "Arterial blood oxygen saturation (pulse oximeter)",
                     "short_name": "Spo2",
                     "value": "7"
@@ -65,7 +65,7 @@
             "label": "Fee Information",
             "value": [
                 {
-                    "type": "TextArea",
+                    "type": "TextBox",
                     "label": "Registration Fee",
                     "value": "720"
                 },
@@ -75,7 +75,7 @@
                     "value": "Aman Prakash"
                 },
                 {
-                    "type": "TextArea",
+                    "type": "TextBox",
                     "label": "Consultation Fee",
                     "value": "1000"
                 }
