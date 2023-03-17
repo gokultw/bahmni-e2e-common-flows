@@ -108,14 +108,14 @@ async function validateFormFromFile(configurations) {
                 break;
             case 'Date':
                 var dateFormatted = date.addDaysAndReturnDateInShortFormat(configuration.value)
-                console.log("---DATE BEFORE ASSERT---")
+                console.log("---DATE BEFORE ASSERT--- " + label)
                 assert.ok(await text(dateFormatted, toRightOf(label)).exists(), dateFormatted + " To Right of " + label + " is not exist.")
-                console.log("---DATE AFTER ASSERT---")
+                console.log("---DATE AFTER ASSERT--- " + label)
                 break;
             default:
-                console.log("---DEFAULT BEFORE ASSERT---")
+                console.log("---DEFAULT BEFORE ASSERT--- " + label)
                 assert.ok(await text(configuration.value, toRightOf(label)).exists(), configuration.value + " To Right of " + label + " is not exist.")
-                console.log("---DEFAULT AFTER ASSERT---")
+                console.log("---DEFAULT AFTER ASSERT--- " + label)
         }
     }
     console.log("---COMPLETE VALIDATION---")

@@ -422,5 +422,5 @@ step("Enter random email address", async function () {
 step("Click on Save and goto dashboard", async function() {
 	await scrollTo(`Save and go to Dashboard`)
     await click(`Save and go to Dashboard`, { waitForNavigation: true, navigationTimeout: process.env.actionTimeout });
-    
+    await taikoHelper.repeatUntilNotFound($("#overlay"))
 });
