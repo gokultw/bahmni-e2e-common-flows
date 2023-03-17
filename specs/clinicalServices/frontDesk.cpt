@@ -27,13 +27,7 @@
 * Enter patient random last name
 * Enter patient random gender
 * Enter random age of the patient
-* Enter random House number/Flat number
-* Enter random Locality/Sector
-* Enter random village
-* Enter random pinCode
 * Enter patient random mobile number
-* Enter random email address
-* Upload patient image
 * Save the patient data
 * Verify no error displayed on page
 
@@ -55,7 +49,7 @@
 * Save visit data
 * wait for overlay and Saved to disappear
 * Verify no error displayed on page
-* Click back button
+* Click on Save and goto dashboard
 
 # Start a <visit> Visit
 * Click Start OPD Visit

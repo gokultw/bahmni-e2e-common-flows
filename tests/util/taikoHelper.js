@@ -97,6 +97,7 @@ async function executeConfigurations(configurations, observationFormName, isNotO
 }
 
 async function validateFormFromFile(configurations) {
+    console.log("---INSIDE VALIDATION---")
     for (var configuration of configurations) {
         var label = configuration.label
         if (configuration.short_name !== undefined)
@@ -107,12 +108,17 @@ async function validateFormFromFile(configurations) {
                 break;
             case 'Date':
                 var dateFormatted = date.addDaysAndReturnDateInShortFormat(configuration.value)
+                console.log("---DATE BEFORE ASSERT---")
                 assert.ok(await text(dateFormatted, toRightOf(label)).exists(), dateFormatted + " To Right of " + label + " is not exist.")
+                console.log("---DATE AFTER ASSERT---")
                 break;
             default:
+                console.log("---DEFAULT BEFORE ASSERT---")
                 assert.ok(await text(configuration.value, toRightOf(label)).exists(), configuration.value + " To Right of " + label + " is not exist.")
+                console.log("---DEFAULT AFTER ASSERT---")
         }
     }
+    console.log("---COMPLETE VALIDATION---")
 }
 
 module.exports = {

@@ -160,7 +160,9 @@ step("Validate obs <form> on the patient clinical dashboard", async function (fo
     gauge.dataStore.scenarioStore.put(obsFormValues.ObservationFormName, obsFormValues)
     await taikoHelper.repeatUntilNotFound($("#overlay"))
     await click($("//i[@class='fa fa-eye']"), within($("//SPAN[text()='" + obsFormValues.ObservationFormName.trim() + "']/..")))
+    console.log("---Clicked EYE---")
     await taikoHelper.repeatUntilNotFound($("#overlay"))
     await taikoHelper.validateFormFromFile(obsFormValues.ObservationFormDetails, obsFormValues.ObservationFormName)
     await click($('.ngdialog-close'))
+    console.log("---Clicked CLOSE---")
 });
