@@ -100,7 +100,7 @@ async function executeConfigurations(configurations, observationFormName, isNotO
 async function validateFormFromFile(configurations) {
     console.log("---INSIDE VALIDATION---")
     for (var configuration of configurations) {
-        var label = configuration.label
+        var label = configuration.label.trim();
         if (configuration.short_name !== undefined)
             label = configuration.short_name
         switch (configuration.type) {
