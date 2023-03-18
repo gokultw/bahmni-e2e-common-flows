@@ -110,13 +110,13 @@ async function validateFormFromFile(configurations) {
             case 'Date':
                 var dateFormatted = date.addDaysAndReturnDateInShortFormat(configuration.value)
                 console.log("---DATE BEFORE ASSERT--- " + label)
-                assert.ok(await $("//LABEL[contains(normalize-space(),'" + label + "')]/../following-sibling::SPAN/PRE[normalize-space()='" + dateFormatted + "']").exists(), dateFormatted + " To Right of " + label + " is not exist.")
+                assert.ok(await $(`//LABEL[contains(normalize-space(), "${label}")]/../following-sibling::SPAN/PRE[normalize-space()="${dateFormatted}"]`).exists(), dateFormatted + " To Right of " + label + " is not exist.")
                 console.log("---DATE AFTER ASSERT--- " + label)
                 break;
             default:
                 console.log("---DEFAULT BEFORE ASSERT--- " + label)
-                console.log("//LABEL[contains(normalize-space(),'" + label + "')]/../following-sibling::SPAN/PRE[normalize-space()='" + configuration.value + "]")
-                assert.ok(await $("//LABEL[contains(normalize-space(),'" + label + "')]/../following-sibling::SPAN/PRE[normalize-space()='" + configuration.value + "']").exists(), configuration.value + " To Right of " + label + " is not exist.")
+                console.log(`//LABEL[contains(normalize-space(),"${label}")]/../following-sibling::SPAN/PRE[normalize-space()="${configuration.value}"]`);
+                assert.ok(await $(`//LABEL[contains(normalize-space(),"${label}")]/../following-sibling::SPAN/PRE[normalize-space()="${configuration.value}"]`).exists(), configuration.value + " To Right of " + label + " is not exist.")
                 console.log("---DEFAULT AFTER ASSERT--- " + label)
         }
     }
